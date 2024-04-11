@@ -17,11 +17,11 @@
     # Home Manger GitHub repo
     home-manager = {
       url = "github:nix-community/home-manager/release-23.11";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
     };
   };
 
-  outputs = { self, nixpkgs-stable, nixpkgs-unstable, ... } @ inputs:
+  outputs = { self, nixpkgs-stable, nixpkgs-unstable, home-manager, ... } @ inputs:
     let
       inherit (self) outputs;
       lib = nixpkgs-stable.lib;
@@ -65,13 +65,13 @@
       # Reusable nixos modules
       nixosModules = import ./nixos;
       # Reusable home-manager modules
-      # homeManagerModules = import ./home-manager;
+      homeManagerModules = import ./home-manager;
 
       # NixOS Hosts
       nixosConfigurations = builtins.mapAttrs
-        (name: host: lib.nixosSystem {
+        (_name: host: lib.nixosSystem {
           system = host.platform;
-          specialArgs = { inherit inputs outputs host; };
+          specialArgs = { inherit lib inputs outputs host; };
           modules = host.modules;
         })
         systemConfig;
