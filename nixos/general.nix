@@ -70,9 +70,18 @@
     btop
     neofetch
   ];
+  security.doas.enable = true;
+  security.sudo.enable = false;
+  security.doas.extraRules = [{
+    users = [ host.mainUser ];
+    keepEnv = true;
+    persist = true;
+  }];
   environment.shellAliases = {
     ls = "eza";
     l = "eza -la";
     f = "thefuck";
+    sudo = "doas";
   };
 }
+  
