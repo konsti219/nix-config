@@ -52,9 +52,10 @@
     randomizedDelaySec = "5min";
   };
 
-  environment.systemPackages = with pkgs.unstable; [
+  environment.systemPackages = with pkgs; [
     firefox
-    vscodium
+    unstable.vscodium
   ];
+  hardware.opengl.enable = true;
 }
 
