@@ -25,8 +25,7 @@
         source "$\{XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-$\{(%):-%n}.zsh"
       fi
 
-      # [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-      source ${./zsh/.p10k.zsh}
+      source ${./.p10k.zsh}
 
       export PATH="$PATH:$HOME/.cargo/bin"
     '';

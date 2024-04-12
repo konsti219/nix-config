@@ -1,6 +1,6 @@
-{ config, pkgs, host, ... }: {
+{ config, pkgs, outputs, host, ... }: {
   imports = [
-    ./zsh.nix
+    outputs.homeManagerModules.zsh
   ];
 
   home.username = host.mainUser;

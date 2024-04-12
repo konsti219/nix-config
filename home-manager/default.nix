@@ -1,5 +1,5 @@
 {
   home = import ./home.nix;
 
-  zsh = import ./zsh.nix;
+  zsh = import ./zsh;
 }
