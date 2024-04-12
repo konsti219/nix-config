@@ -50,12 +50,15 @@
     android-studio
     clang
     clang-tools
-    gh
+    (hiPrio gcc)
     gnumake
     rustup
+    gh
 
     yubikey-manager-qt
     discord
+    prismlauncher
+    superTuxKart
   ]) ++ (with pkgs; [
     yakuake
   ]);
