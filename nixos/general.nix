@@ -2,7 +2,7 @@
 { lib, pkgs, outputs, host, ... }: {
   # ====
   # Boot
-  # ====  
+  # ====
 
   # Use latest Linux kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
@@ -79,8 +79,8 @@
   }];
   environment.shellAliases = {
     ls = "eza";
+    ll = "eza -l";
     l = "eza -la";
-    f = "thefuck";
     sudo = "doas";
   };
 }

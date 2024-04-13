@@ -1,13 +1,19 @@
 # Configure zsh
 { pkgs, ... }: {
+  home.shellAliases = {
+    # anti-prank prank
+    vi = "loginctl lock-session #";
+    vim = "loginctl lock-session #";
+    nvim = "loginctl lock-session #";
+
+    # TODO: depuplicate from nixos/general.nix
+    ls = "eza";
+    ll = "eza -l";
+    l = "eza -la";
+  };
+  programs.bash.enable = true;
   programs.zsh = {
     enable = true;
-    shellAliases = {
-      # anti-prank prank
-      vi = "loginctl lock-session #";
-      vim = "loginctl lock-session #";
-      nvim = "loginctl lock-session #";
-    };
     history.size = 16384;
 
     enableCompletion = true;
@@ -32,8 +38,7 @@
 
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" "thefuck" ];
+      plugins = [ "git" ];
     };
   };
-  home.packages = [ pkgs.thefuck ];
 }
