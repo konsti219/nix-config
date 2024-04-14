@@ -18,4 +18,16 @@
   services.xserver.layout = "us";
   # services.xserver.xkbOptions = "eurosign:e,caps:escape";
   services.xserver.xkbOptions = "eurosign:e;lv3:ralt_switch";
+
+  # KDE Connect
+  programs.kdeconnect.enable = true;
+  networking.firewall = {
+    enable = true;
+    allowedTCPPortRanges = [
+      { from = 1714; to = 1764; }
+    ];
+    allowedUDPPortRanges = [
+      { from = 1714; to = 1764; }
+    ];
+  };
 }
