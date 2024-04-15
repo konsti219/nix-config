@@ -66,8 +66,10 @@
     randomizedDelaySec = "5min";
   };
 
+  # General Desktop software
   environment.systemPackages = with pkgs; [
     firefox
+    thunderbird
     unstable.vscodium
   ];
   hardware.opengl.enable = true;
