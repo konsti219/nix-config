@@ -9,35 +9,30 @@
   # Packages that should be installed to the user profile.
   home.packages = (with pkgs.unstable; [
     neofetch
-    nnn # terminal file manager
 
-    # archives
+    # Utils
+    nnn
     zip
     xz
     unzip
     p7zip
+    ripgrep
+    jq
+    fzf
 
-    # utils
-    ripgrep # recursively searches directories for a regex pattern
-    jq # A lightweight and flexible command-line JSON processor
-    yq-go # yaml processor https://github.com/mikefarah/yq
-    fzf # A command-line fuzzy finder
-
-    # networking tools
+    # Networking tools
     mtr # A network diagnostic tool
     iperf3
     dnsutils # `dig` + `nslookup`
-    ldns # replacement of `dig`, it provide the command `drill`
-    aria2 # A lightweight multi-protocol & multi-source command-line download utility
-    socat # replacement of openbsd-netcat
-    nmap # A utility for network discovery and security auditing
-    ipcalc # it is a calculator for the IPv4/v6 addresses
+    ldns
+    socat
+    nmap
     iptables
     ipscan
     wireguard-tools
     wireshark-qt
 
-    # misc
+    # Misc
     cowsay
     which
     gnused
@@ -45,8 +40,10 @@
     gawk
     zstd
     gparted
-    glow # markdown previewer in terminal
+    glow
+    yubikey-manager-qt
 
+    # Dev tools
     android-studio
     clang
     clang-tools
@@ -55,7 +52,12 @@
     rustup
     gh
 
-    yubikey-manager-qt
+    # Creative tools
+    blender
+    gimp
+    orca-slicer
+
+    # Other software
     discord
     prismlauncher
     superTuxKart
