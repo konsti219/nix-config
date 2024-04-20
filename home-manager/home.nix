@@ -58,7 +58,7 @@
     orca-slicer
 
     # Other software
-    discord
+    pkgs.discord
     prismlauncher
     superTuxKart
   ]) ++ (with pkgs; [
