@@ -45,9 +45,9 @@
 
     # Dev tools
     android-studio
-    clang
+    (hiPrio clang)
     clang-tools
-    (hiPrio gcc)
+    gcc
     gnumake
     rustup
     gh
