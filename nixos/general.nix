@@ -65,6 +65,7 @@
     tree
     git
     nixpkgs-fmt
+    alejandra
 
     htop
     btop

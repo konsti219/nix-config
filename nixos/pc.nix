@@ -71,6 +71,7 @@
     firefox
     thunderbird
     unstable.vscodium
+    unstable.nil
   ];
   hardware.opengl.enable = true;
 }
