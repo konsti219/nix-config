@@ -74,7 +74,7 @@
 
     htop
     btop
-    neofetch
+    fastfetch
   ];
   security.doas.enable = true;
   security.sudo.enable = false;
@@ -90,5 +90,6 @@
     ll = "eza -l";
     l = "eza -la";
     sudo = "doas";
+    neofetch = "fastfetch";
   };
 }
