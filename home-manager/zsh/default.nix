@@ -1,5 +1,5 @@
 # Configure zsh
-{ pkgs, ... }: {
+{pkgs, ...}: {
   home.shellAliases = {
     # anti-prank prank
     vi = "loginctl lock-session #";
@@ -38,7 +38,7 @@
 
     oh-my-zsh = {
       enable = true;
-      plugins = [ "git" ];
+      plugins = ["git"];
     };
   };
 }

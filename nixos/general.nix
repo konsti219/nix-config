@@ -1,5 +1,11 @@
 # Genral config to be used across all systems
-{ lib, pkgs, outputs, host, ... }: {
+{
+  lib,
+  pkgs,
+  outputs,
+  host,
+  ...
+}: {
   # ====
   # Boot
   # ====
@@ -7,7 +13,7 @@
   # Use latest Linux kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
   # For better interop
-  boot.supportedFilesystems = [ "ntfs" ];
+  boot.supportedFilesystems = ["ntfs"];
 
   # ==========
   # Networking
@@ -33,7 +39,7 @@
   # ============
 
   # Enable new cli and flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   # The only unfree packages allowed are listed here.
   # nixpkgs.config.allowUnfree = true;
@@ -64,7 +70,6 @@
     wget
     tree
     git
-    nixpkgs-fmt
     alejandra
 
     htop
@@ -73,11 +78,13 @@
   ];
   security.doas.enable = true;
   security.sudo.enable = false;
-  security.doas.extraRules = [{
-    users = [ host.mainUser ];
-    keepEnv = true;
-    persist = true;
-  }];
+  security.doas.extraRules = [
+    {
+      users = [host.mainUser];
+      keepEnv = true;
+      persist = true;
+    }
+  ];
   environment.shellAliases = {
     ls = "eza";
     ll = "eza -l";
@@ -85,4 +92,3 @@
     sudo = "doas";
   };
 }
-  

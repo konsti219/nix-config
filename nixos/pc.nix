@@ -1,5 +1,9 @@
 # Settings for personal machines like Desktops or Laptops
-{ pkgs, inputs, ... }: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   # Enable sound.
   sound.enable = true;
   hardware.pulseaudio = {
@@ -32,7 +36,7 @@
 
       # custom fonts
       meslo-lgs-nf
-      (nerdfonts.override { fonts = [ "FiraCode" "DroidSansMono" "Meslo" ]; })
+      (nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "Meslo"];})
     ];
   };
   # tty font
@@ -75,4 +79,3 @@
   ];
   hardware.opengl.enable = true;
 }
-

@@ -21,24 +21,32 @@
     };
   };
 
-  outputs = { self, nixpkgs-stable, nixpkgs-unstable, home-manager, ... } @ inputs:
-    let
-      inherit (self) outputs;
-      lib = nixpkgs-stable.lib;
-      args = { inherit inputs outputs lib; };
+  outputs = {
+    self,
+    nixpkgs-stable,
+    nixpkgs-unstable,
+    home-manager,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    lib = nixpkgs-stable.lib;
+    args = {inherit inputs outputs lib;};
 
-      # Define main user
-      mainUser = "konsti";
+    # Define main user
+    mainUser = "konsti";
 
-      # List of all hosts for each platform
-      systems = {
-        x86_64-linux = [ (import ./hosts/snow args) ];
-      };
+    # List of all hosts for each platform
+    systems = {
+      x86_64-linux = [(import ./hosts/snow args)];
+    };
 
-      # Transform into datastructure for nixosConfiguration
-      platformNames = builtins.attrNames systems;
-      systemValues = map
-        (platform: map
+    # Transform into datastructure for nixosConfiguration
+    platformNames = builtins.attrNames systems;
+    systemValues =
+      map
+      (
+        platform:
+          map
           (host: {
             name = host.hostName;
             value = {
@@ -49,36 +57,37 @@
             };
           })
           systems.${platform}
-        )
-        platformNames;
-      systemConfig = builtins.listToAttrs (lib.lists.flatten systemValues);
+      )
+      platformNames;
+    systemConfig = builtins.listToAttrs (lib.lists.flatten systemValues);
 
-      # Helper function to generate a set of attributes for each system
-      forSystems = lib.genAttrs platformNames;
-    in
-    {
-      # Custom packages
-      packages = forSystems (system: import ./pkgs nixpkgs-unstable.legacyPackages.${system});
+    # Helper function to generate a set of attributes for each system
+    forSystems = lib.genAttrs platformNames;
+  in {
+    # Custom packages
+    packages = forSystems (system: import ./pkgs nixpkgs-unstable.legacyPackages.${system});
 
-      # Custom packages and modifications, exported as overlays
-      overlays = import ./overlays { inherit inputs; };
-      # Reusable nixos modules
-      nixosModules = import ./nixos;
-      # Reusable home-manager modules
-      homeManagerModules = import ./home-manager;
+    # Custom packages and modifications, exported as overlays
+    overlays = import ./overlays {inherit inputs;};
+    # Reusable nixos modules
+    nixosModules = import ./nixos;
+    # Reusable home-manager modules
+    homeManagerModules = import ./home-manager;
 
-      # NixOS Hosts
-      nixosConfigurations = builtins.mapAttrs
-        (_name: host: lib.nixosSystem {
+    # NixOS Hosts
+    nixosConfigurations =
+      builtins.mapAttrs
+      (_name: host:
+        lib.nixosSystem {
           system = host.platform;
-          specialArgs = { inherit lib inputs outputs host; };
+          specialArgs = {inherit lib inputs outputs host;};
           modules = host.modules;
         })
-        systemConfig;
+      systemConfig;
 
-      # Formatter for nix code in this flake
-      formatter = forSystems (
-        system: nixpkgs-stable.legacyPackages.${system}.nixpkgs-fmt
-      );
-    };
+    # Formatter for nix code in this flake
+    formatter = forSystems (
+      system: nixpkgs-stable.legacyPackages.${system}.alejandra
+    );
+  };
 }

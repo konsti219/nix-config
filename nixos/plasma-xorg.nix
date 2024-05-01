@@ -1,5 +1,5 @@
 # Plasma 5 Configuration with XServer
-{ pkgs, ... }: {
+{pkgs, ...}: {
   # Use xkbOptions in tty.
   console.useXkbConfig = true;
 
@@ -30,19 +30,26 @@
   # KDE Connect
   programs.kdeconnect = {
     enable = true;
-    package = pkgs.libsForQt5.kdeconnect-kde.overrideAttrs
+    package =
+      pkgs.libsForQt5.kdeconnect-kde.overrideAttrs
       (oldAttrs: {
-        buildInputs = (oldAttrs.buildInputs or [ ]) ++ [ pkgs.libsForQt5.qtconnectivity ];
-        cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [ "-DBLUETOOTH_ENABLED=ON" ];
+        buildInputs = (oldAttrs.buildInputs or []) ++ [pkgs.libsForQt5.qtconnectivity];
+        cmakeFlags = (oldAttrs.cmakeFlags or []) ++ ["-DBLUETOOTH_ENABLED=ON"];
       });
   };
   networking.firewall = {
     enable = true;
     allowedTCPPortRanges = [
-      { from = 1714; to = 1764; }
+      {
+        from = 1714;
+        to = 1764;
+      }
     ];
     allowedUDPPortRanges = [
-      { from = 1714; to = 1764; }
+      {
+        from = 1714;
+        to = 1764;
+      }
     ];
   };
 }

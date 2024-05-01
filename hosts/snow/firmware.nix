@@ -1,8 +1,8 @@
 # Firmware software for Framework
-{ ... }: {
+{...}: {
   # Enable firmware upgrader
   services.fwupd.enable = true;
-  services.fwupd.extraRemotes = [ "lvfs-testing" ];
+  services.fwupd.extraRemotes = ["lvfs-testing"];
 
   # Enable fingerprint support
   services.fprintd.enable = true;

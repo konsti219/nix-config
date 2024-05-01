@@ -1,4 +1,10 @@
-{ pkgs, inputs, outputs, host, ... }: {
+{
+  pkgs,
+  inputs,
+  outputs,
+  host,
+  ...
+}: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
   ];
@@ -7,12 +13,12 @@
   home-manager.useUserPackages = true;
   home-manager.users.${host.mainUser} = outputs.homeManagerModules.home;
 
-  home-manager.extraSpecialArgs = { inherit inputs outputs host; };
+  home-manager.extraSpecialArgs = {inherit inputs outputs host;};
 
   # Define main user account
   users.users.${host.mainUser} = {
     isNormalUser = true;
-    extraGroups = [ "wheel" ];
+    extraGroups = ["wheel"];
     shell = pkgs.zsh;
   };
   programs.zsh.enable = true;
@@ -22,4 +28,3 @@
     isNormalUser = true;
   };
 }
-

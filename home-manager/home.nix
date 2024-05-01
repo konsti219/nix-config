@@ -1,4 +1,10 @@
-{ config, pkgs, outputs, host, ... }: {
+{
+  config,
+  pkgs,
+  outputs,
+  host,
+  ...
+}: {
   imports = [
     outputs.homeManagerModules.zsh
   ];
@@ -7,63 +13,65 @@
   home.homeDirectory = "/home/${host.mainUser}";
 
   # Packages that should be installed to the user profile.
-  home.packages = (with pkgs.unstable; [
-    neofetch
+  home.packages =
+    (with pkgs.unstable; [
+      neofetch
 
-    # Utils
-    nnn
-    zip
-    xz
-    unzip
-    p7zip
-    ripgrep
-    jq
-    fzf
+      # Utils
+      nnn
+      zip
+      xz
+      unzip
+      p7zip
+      ripgrep
+      jq
+      fzf
 
-    # Networking tools
-    mtr # A network diagnostic tool
-    iperf3
-    dnsutils # `dig` + `nslookup`
-    ldns
-    socat
-    nmap
-    iptables
-    ipscan
-    wireguard-tools
-    wireshark-qt
+      # Networking tools
+      mtr # A network diagnostic tool
+      iperf3
+      dnsutils # `dig` + `nslookup`
+      ldns
+      socat
+      nmap
+      iptables
+      ipscan
+      wireguard-tools
+      wireshark-qt
 
-    # Misc
-    cowsay
-    which
-    gnused
-    gnutar
-    gawk
-    zstd
-    gparted
-    glow
-    yubikey-manager-qt
+      # Misc
+      cowsay
+      which
+      gnused
+      gnutar
+      gawk
+      zstd
+      gparted
+      glow
+      yubikey-manager-qt
 
-    # Dev tools
-    android-studio
-    (hiPrio clang)
-    clang-tools
-    gcc
-    gnumake
-    rustup
-    gh
+      # Dev tools
+      android-studio
+      (hiPrio clang)
+      clang-tools
+      gcc
+      gnumake
+      rustup
+      gh
 
-    # Creative tools
-    blender
-    gimp
-    orca-slicer
+      # Creative tools
+      blender
+      gimp
+      orca-slicer
 
-    # Other software
-    pkgs.discord
-    prismlauncher
-    superTuxKart
-  ]) ++ (with pkgs; [
-    yakuake
-  ]);
+      # Other software
+      pkgs.discord
+      prismlauncher
+      superTuxKart
+    ])
+    ++ (with pkgs; [
+      yakuake
+    ]);
 
   # git config
   programs.git = {

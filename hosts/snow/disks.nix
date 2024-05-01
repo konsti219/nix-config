@@ -1,4 +1,4 @@
-{ ... }: {
+{...}: {
   # Full disk encryption setup
   boot.loader.efi.canTouchEfiVariables = true;
 

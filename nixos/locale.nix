@@ -1,5 +1,5 @@
 # Locale
-{ ... }: {
+{...}: {
   # Set time zone.
   time.timeZone = "Europe/Berlin";
 
@@ -9,4 +9,3 @@
     LC_TIME = "de_DE.UTF-8";
   };
 }
-
