@@ -3,7 +3,7 @@
   inputs,
   outputs,
   ...
-} @ args: rec {
+} @ args: {
   hostName = "snow";
   modules =
     [
