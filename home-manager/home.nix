@@ -85,8 +85,8 @@
     extraConfig = {
       core.editor = "codium --wait";
       credential = {
-        "https://github.com".helper = "!/home/konsti/.nix-profile/bin/gh auth git-credential";
-        "https://gist.github.com".helper = "!/home/konsti/.nix-profile/bin/gh auth git-credential";
+        "https://github.com".helper = "!gh auth git-credential";
+        "https://gist.github.com".helper = "!gh auth git-credential";
       };
       url = {
         "https://github.com/".insteadof = "git@github.com:";
