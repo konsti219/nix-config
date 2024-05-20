@@ -84,16 +84,14 @@
     };
     extraConfig = {
       core.editor = "codium --wait";
-      credential = {
-        "https://github.com".helper = "!gh auth git-credential";
-        "https://gist.github.com".helper = "!gh auth git-credential";
-      };
-      url = {
-        "https://github.com/".insteadof = "git@github.com:";
-        "https://".insteadof = "git://";
-      };
       init.defaultbranch = "main";
     };
+    includes = [
+      {
+        path = "~/work/.gitconfig";
+        condition = "gitdir:~/work/";
+      }
+    ];
   };
 
   home.stateVersion = "23.11"; # Don't change!
