@@ -1,13 +1,15 @@
 # Services for auth and logon and stuff. Mainly gnupg and ssh.
 {...}: {
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
   # programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
-    enableSSHSupport = true;
+    # enableSSHSupport = true;
   };
   services.pcscd.enable = true;
+  programs.ssh = {
+    startAgent = true;
+    agentTimeout = null;
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh = {
