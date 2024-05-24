@@ -17,7 +17,7 @@
     history.size = 16384;
 
     enableCompletion = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
 
     plugins = [
       {
