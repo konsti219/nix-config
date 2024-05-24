@@ -7,7 +7,7 @@
   auth = import ./auth.nix;
   locale = import ./locale.nix;
   pc = import ./pc.nix;
-  plasma-xorg = import ./plasma-xorg.nix;
+  plasma = import ./plasma.nix;
   steam = import ./steam.nix;
   virtualisation = import ./virtualisation.nix;
   zerotier = import ./zerotier.nix;

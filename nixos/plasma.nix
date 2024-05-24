@@ -1,27 +1,12 @@
 # Plasma 5 Configuration with XServer
 {pkgs, ...}: {
-  # Use xkbOptions in tty.
-  console.useXkbConfig = true;
-
-  # =======
-  # Xserver
-  # =======
-
-  # Enable the X11 windowing system.
-  services.xserver.enable = true;
-
-  # Configure keymap in X11 [BROKEN]
-  services.xserver.xkb.layout = "us";
-  # services.xserver.xkbOptions = "eurosign:e,caps:escape";
-  services.xserver.xkb.options = "eurosign:e;lv3:ralt_switch";
-
   # ===
   # KDE
   # ===
 
   # Enable the Plasma 5 Desktop Environment.
   services.displayManager.sddm.enable = true;
-  # services.xserver.desktopManager.plasma5.enable = true;
+  services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
 
   environment.systemPackages = [

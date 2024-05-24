@@ -21,7 +21,7 @@
       auth
       locale
       pc
-      plasma-xorg
+      plasma
       steam
       virtualisation
       zerotier
