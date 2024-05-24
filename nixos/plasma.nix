@@ -14,17 +14,8 @@
   ];
 
   # KDE Connect
-  programs.kdeconnect = {
-    enable = true;
-    # package =
-    #   pkgs.libsForQt5.kdeconnect-kde.overrideAttrs
-    #   (oldAttrs: {
-    #     buildInputs = (oldAttrs.buildInputs or []) ++ [pkgs.libsForQt5.qtconnectivity];
-    #     cmakeFlags = (oldAttrs.cmakeFlags or []) ++ ["-DBLUETOOTH_ENABLED=ON"];
-    #   });
-  };
+  programs.kdeconnect.enable = true;
   networking.firewall = {
-    enable = true;
     allowedTCPPortRanges = [
       {
         from = 1714;
