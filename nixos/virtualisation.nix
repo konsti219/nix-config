@@ -1,7 +1,12 @@
 # Options relating to Virtualisation
-{host, ...}: {
-  # virtualisation.virtualbox.host.enable = true;
-  # users.extraGroups.vboxusers.members = [host.mainUser];
+{
+  host,
+  pkgs,
+  ...
+}: {
+  virtualisation.virtualbox.host.enable = true;
+  users.extraGroups.vboxusers.members = [host.mainUser];
+  virtualisation.virtualbox.host.package = pkgs.unstable.virtualbox;
 
   virtualisation.docker.enable = true;
   users.extraGroups.docker.members = [host.mainUser];
