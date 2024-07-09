@@ -15,8 +15,6 @@
   # Packages that should be installed to the user profile.
   home.packages =
     (with pkgs.unstable; [
-      neofetch
-
       # Utils
       nnn
       zip
@@ -60,7 +58,7 @@
       gh
 
       # Creative tools
-      blender
+      # blender
       gimp
       orca-slicer
 

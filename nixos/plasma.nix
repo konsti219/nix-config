@@ -9,10 +9,6 @@
   services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
 
-  environment.systemPackages = [
-    pkgs.libsForQt5.bluedevil
-  ];
-
   # KDE Connect
   programs.kdeconnect.enable = true;
   networking.firewall = {
