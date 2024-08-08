@@ -26,4 +26,5 @@
       virtualisation
       zerotier
     ]);
+  homeManagerModules = [];
 }

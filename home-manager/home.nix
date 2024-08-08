@@ -5,9 +5,11 @@
   host,
   ...
 }: {
-  imports = [
-    outputs.homeManagerModules.zsh
-  ];
+  imports =
+    [
+      outputs.homeManagerModules.zsh
+    ]
+    ++ host.homeManagerModules;
 
   home.username = host.mainUser;
   home.homeDirectory = "/home/${host.mainUser}";

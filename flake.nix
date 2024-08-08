@@ -53,6 +53,7 @@
               inherit platform;
               hostName = host.hostName;
               modules = host.modules;
+              homeManagerModules = host.homeManagerModules;
               inherit mainUser;
             };
           })
