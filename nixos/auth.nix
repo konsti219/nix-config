@@ -13,7 +13,7 @@
 
   # Enable the OpenSSH daemon.
   services.openssh = {
-    enable = true;
+    # enable = true;
     settings.PermitRootLogin = "no";
     # require public key authentication
     settings.PasswordAuthentication = false;

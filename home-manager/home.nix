@@ -26,6 +26,8 @@
       ripgrep
       jq
       fzf
+      comma
+      screen
 
       # Networking tools
       mtr # A network diagnostic tool
@@ -58,9 +60,10 @@
       gnumake
       rustup
       gh
+      arduino-ide
 
       # Creative tools
-      # blender
+      blender
       gimp
       orca-slicer
 
@@ -76,6 +79,7 @@
   # git config
   programs.git = {
     enable = true;
+    lfs.enable = true;
     userName = "konsti219";
     userEmail = "37149441+konsti219@users.noreply.github.com";
     signing = {

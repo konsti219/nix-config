@@ -78,8 +78,9 @@
     btop
     fastfetch
   ];
-  security.doas.enable = true;
+
   security.sudo.enable = false;
+  security.doas.enable = true;
   security.doas.extraRules = [
     {
       users = [host.mainUser];
@@ -87,6 +88,7 @@
       persist = true;
     }
   ];
+
   environment.shellAliases = {
     ls = "eza";
     ll = "eza -l";
