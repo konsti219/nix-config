@@ -21,6 +21,7 @@
     extraGroups = ["wheel"];
     shell = pkgs.zsh;
   };
+  # required here because shell is set to zsh
   programs.zsh.enable = true;
 
   # Define guest account

@@ -2,9 +2,6 @@
   description = "NixOS config flake";
 
   inputs = {
-    # The flake in the current directory.
-    # currentDir.url = ".";
-
     # Stable 24.05 NixOS/nixpkgs
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.05";
 
@@ -19,6 +16,15 @@
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+
+    # Private NixOS/Home Manager modules that are excluded in *-generic hosts
+    secrets = {
+      url = "git+ssh://github.com_konsti219/konsti219/nix-config-secrets.git?shallow=1";
+      inputs = {
+        nixpkgs-stable.follows = "nixpkgs-stable";
+        nixpkgs-unstable.follows = "nixpkgs-unstable";
+      };
+    };
   };
 
   outputs = {
@@ -26,6 +32,7 @@
     nixpkgs-stable,
     nixpkgs-unstable,
     home-manager,
+    secrets,
     ...
   } @ inputs: let
     inherit (self) outputs;
@@ -41,28 +48,37 @@
     };
 
     # Transform into datastructure for nixosConfiguration
-    platformNames = builtins.attrNames systems;
-    systemValues =
-      map
-      (
-        platform:
-          map
-          (host: {
-            name = host.hostName;
-            value = {
-              inherit platform;
-              hostName = host.hostName;
-              modules = host.modules;
-              homeManagerModules = host.homeManagerModules;
-              inherit mainUser;
-            };
-          })
-          systems.${platform}
-      )
-      platformNames;
-    systemConfig = builtins.listToAttrs (lib.lists.flatten systemValues);
+    systemsPlatformHostsVariants = lib.attrsets.mapAttrsToList (platform: systems:
+      map (host: [
+        # Generic version
+        {
+          name = host.hostName + "-generic";
+          value = {
+            inherit platform;
+            hostName = host.hostName + "-generic";
+            modules = host.modules;
+            homeManagerModules = host.homeManagerModules;
+            inherit mainUser;
+          };
+        }
+        # Version with secrets
+        {
+          name = host.hostName;
+          value = {
+            inherit platform;
+            hostName = host.hostName;
+            modules = host.modules ++ host.modulesSecret;
+            homeManagerModules = host.homeManagerModules ++ host.homeManagerModulesSecret;
+            inherit mainUser;
+          };
+        }
+      ])
+      systems)
+    systems;
+    systemsVariants = builtins.listToAttrs (lib.lists.flatten (lib.lists.flatten systemsPlatformHostsVariants));
 
     # Helper function to generate a set of attributes for each system
+    platformNames = builtins.attrNames systems;
     forSystems = lib.genAttrs platformNames;
   in {
     # Custom packages
@@ -70,9 +86,9 @@
 
     # Custom packages and modifications, exported as overlays
     overlays = import ./overlays {inherit inputs;};
-    # Reusable nixos modules
+    # Reusable NixOS modules
     nixosModules = import ./nixos;
-    # Reusable home-manager modules
+    # Reusable Home Manager modules
     homeManagerModules = import ./home-manager;
 
     # NixOS Hosts
@@ -84,7 +100,7 @@
           specialArgs = {inherit lib inputs outputs host;};
           modules = host.modules;
         })
-      systemConfig;
+      systemsVariants;
 
     # Formatter for nix code in this flake
     formatter = forSystems (

@@ -21,6 +21,23 @@
         "type": "github"
       }
     },
+    "home-manager_2": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1728337164,
+        "narHash": "sha256-VdRTjJFyq4Q9U7Z/UoC2Q5jK8vSo6E86lHc2OanXtvc=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "038630363e7de57c36c417fd2f5d7c14773403e4",
+        "type": "github"
+      },
+      "original": {
+        "id": "home-manager",
+        "type": "indirect"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1728269138,
@@ -34,6 +51,22 @@
         "owner": "NixOS",
         "ref": "master",
         "repo": "nixos-hardware",
+        "type": "github"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1726937504,
+        "narHash": "sha256-bvGoiQBvponpZh8ClUcmJ6QnsNKw0EMrCQJARK3bI1c=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "9357f4f23713673f310988025d9dc261c20e70c6",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
         "type": "github"
       }
     },
@@ -74,7 +107,33 @@
         "home-manager": "home-manager",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs-stable": "nixpkgs-stable",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "secrets": "secrets"
+      }
+    },
+    "secrets": {
+      "inputs": {
+        "home-manager": "home-manager_2",
+        "nixpkgs-stable": [
+          "nixpkgs-stable"
+        ],
+        "nixpkgs-unstable": [
+          "nixpkgs-unstable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1728499434,
+        "narHash": "sha256-tOewNlFYrC4jeWp+muAUQh+/w6JgXQjigdmP5z0KB1c=",
+        "ref": "refs/heads/main",
+        "rev": "5d97bc2b9fbf69e53e31f5f686aa71bb71bf6b14",
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://github.com_konsti219/konsti219/nix-config-secrets.git"
+      },
+      "original": {
+        "shallow": true,
+        "type": "git",
+        "url": "ssh://github.com_konsti219/konsti219/nix-config-secrets.git"
       }
     }
   },

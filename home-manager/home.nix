@@ -80,22 +80,10 @@
   programs.git = {
     enable = true;
     lfs.enable = true;
-    userName = "konsti219";
-    userEmail = "37149441+konsti219@users.noreply.github.com";
-    signing = {
-      signByDefault = true;
-      key = "65C10FB5A2BF4E55";
-    };
     extraConfig = {
       core.editor = "codium --wait";
       init.defaultbranch = "main";
     };
-    includes = [
-      {
-        path = "~/work/.gitconfig";
-        condition = "gitdir:~/work/";
-      }
-    ];
   };
 
   home.stateVersion = "23.11"; # Don't change!

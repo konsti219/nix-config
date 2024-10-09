@@ -10,5 +10,4 @@
   plasma = import ./plasma.nix;
   steam = import ./steam.nix;
   virtualisation = import ./virtualisation.nix;
-  zerotier = import ./zerotier.nix;
 }

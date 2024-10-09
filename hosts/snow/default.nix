@@ -5,6 +5,7 @@
   ...
 } @ args: {
   hostName = "snow";
+
   modules =
     [
       ./hardware-configuration.nix
@@ -24,7 +25,9 @@
       plasma
       steam
       virtualisation
-      zerotier
     ]);
-  homeManagerModules = [];
+  modulesSecret = with inputs.secrets.nixosModules; [zerotier];
+
+  homeManagerModules = with outputs.homeManagerModules; [];
+  homeManagerModulesSecret = with inputs.secrets.homeManagerModules; [home];
 }
