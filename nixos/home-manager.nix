@@ -12,6 +12,7 @@
   home-manager.useGlobalPkgs = true;
   home-manager.useUserPackages = true;
   home-manager.users.${host.mainUser} = outputs.homeManagerModules.home;
+  home-manager.backupFileExtension = "backup";
 
   home-manager.extraSpecialArgs = {inherit inputs outputs host;};
 

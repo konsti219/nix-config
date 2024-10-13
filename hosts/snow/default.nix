@@ -12,7 +12,7 @@
       inputs.nixos-hardware.nixosModules.framework-13th-gen-intel
       ./disks.nix
       ./firmware.nix
-      ({...}: {system.stateVersion = "23.05";}) # Don't change!
+      ({...}: {system.stateVersion = "23.11";}) # Don't change!
     ]
     ++ (with outputs.nixosModules; [
       general

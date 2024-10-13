@@ -63,7 +63,7 @@
       arduino-ide
 
       # Creative tools
-      blender
+      pkgs.blender
       gimp
       orca-slicer
 
