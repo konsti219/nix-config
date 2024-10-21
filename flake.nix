@@ -17,6 +17,12 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
+    # lanzaboote (secure boot)
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.4.1";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+
     # Private NixOS/Home Manager modules that are excluded in *-generic hosts
     secrets = {
       url = "git+ssh://github.com_konsti219/konsti219/nix-config-secrets.git?shallow=1";
