@@ -37,9 +37,8 @@
       socat
       nmap
       iptables
-      ipscan
+      # ipscan
       wireguard-tools
-      wireshark-qt
 
       # Misc
       cowsay
@@ -58,6 +57,8 @@
       clang-tools
       gcc
       gnumake
+      gdb
+      nasm
       rustup
       gh
       arduino-ide
@@ -85,6 +86,13 @@
       init.defaultbranch = "main";
     };
   };
+
+  # gdb config
+  home.file.".gdbinit".text = ''
+    set disassembly-flavor intel
+    set print pretty on
+    alias di = disas /r $pc, +
+  '';
 
   home.stateVersion = "23.11"; # Don't change!
 

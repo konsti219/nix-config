@@ -76,6 +76,8 @@
     thunderbird
     unstable.vscodium
     unstable.nil
+    wireshark
   ];
   hardware.opengl.enable = true;
+  programs.wireshark.enable = true;
 }

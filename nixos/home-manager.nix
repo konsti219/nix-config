@@ -19,7 +19,7 @@
   # Define main user account
   users.users.${host.mainUser} = {
     isNormalUser = true;
-    extraGroups = ["wheel"];
+    extraGroups = ["wheel" "wireshark"];
     shell = pkgs.zsh;
   };
   # required here because shell is set to zsh
