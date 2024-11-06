@@ -62,11 +62,12 @@
       rustup
       gh
       arduino-ide
+      python3
 
       # Creative tools
       pkgs.blender
       gimp
-      orca-slicer
+      # orca-slicer
 
       # Other software
       pkgs.discord
