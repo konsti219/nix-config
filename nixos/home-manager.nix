@@ -26,7 +26,7 @@
   programs.zsh.enable = true;
 
   # Define guest account
-  users.users.guest = {
-    isNormalUser = true;
-  };
+  # users.users.guest = {
+  #   isNormalUser = true;
+  # };
 }
