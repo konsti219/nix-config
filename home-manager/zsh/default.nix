@@ -1,6 +1,10 @@
 # Configure zsh
 {pkgs, ...}: {
   home.shellAliases = {
+    # useful shorthands
+    e = "codium .";
+    c = "cd";
+
     # anti-prank prank
     vi = "loginctl lock-session #";
     vim = "loginctl lock-session #";

@@ -58,6 +58,7 @@
       gcc
       gnumake
       gdb
+      # pwndbg
       nasm
       rustup
       gh
@@ -93,6 +94,11 @@
     set disassembly-flavor intel
     set print pretty on
     alias di = disas /r $pc, +
+    alias ri = starti
+    # alias ui = tui enable
+    alias ui = python import gdb ; print(gdb.execute("tui enable")) ; print(gdb.execute("la asm")) ; print(gdb.execute("disas /r $pc, +1"))
+    alias uir = la reg
+    alias di1 = disas /r $pc, +1
   '';
 
   home.stateVersion = "23.11"; # Don't change!
