@@ -282,10 +282,10 @@
         ]
       },
       "locked": {
-        "lastModified": 1732190794,
-        "narHash": "sha256-4NN4bLeuE0+q2By4aFTjzagzJbrFApYts1rkdwGT5cs=",
+        "lastModified": 1732210904,
+        "narHash": "sha256-zkNLEpOrfnKGNTYzwUPVQ+EH/UHxUhSZGwPf4GCQ4EE=",
         "ref": "refs/heads/main",
-        "rev": "2878b087b3380a071b98530192e17a6b30135a4d",
+        "rev": "6aece144039c3af2a2645c5e59b26d52889eee62",
         "shallow": true,
         "type": "git",
         "url": "ssh://github.com_konsti219/konsti219/nix-config-secrets.git"
