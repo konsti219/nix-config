@@ -40,8 +40,6 @@
 
   # Enable new cli and flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
-  # TODO: remove once 2.21+ is in stable. This is a fix for broken nix store.
-  nix.package = pkgs.nixVersions.nix_2_21;
 
   # The only unfree packages allowed are listed here.
   # nixpkgs.config.allowUnfree = true;
@@ -52,6 +50,7 @@
       "steam"
       "steam-original"
       "steam-run"
+      "steam-unwrapped"
       "zerotierone"
     ];
 

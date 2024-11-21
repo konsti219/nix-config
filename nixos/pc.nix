@@ -4,16 +4,6 @@
   inputs,
   ...
 }: {
-  # Enable sound.
-  sound.enable = true;
-  hardware.pulseaudio = {
-    enable = true;
-    support32Bit = true;
-  };
-
-  # Enable CUPS to print documents.
-  # services.printing.enable = true;
-
   # Enable support for Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
@@ -21,6 +11,9 @@
 
   # Enable touchpad support (enabled default in most desktopManager).
   services.libinput.enable = true;
+
+  # Enable CUPS to print documents.
+  # services.printing.enable = true;
 
   # Fonts
   fonts = {
@@ -78,6 +71,6 @@
     unstable.nil
     wireshark
   ];
-  hardware.opengl.enable = true;
+  hardware.graphics.enable = true;
   programs.wireshark.enable = true;
 }
