@@ -101,6 +101,12 @@
     alias di1 = disas /r $pc, +1
   '';
 
+  # Enable eza with icons for mainUser
+  programs.eza = {
+    enable = true;
+    icons = "auto";
+  };
+
   home.stateVersion = "23.11"; # Don't change!
 
   # Let home Manager install and manage itself.
