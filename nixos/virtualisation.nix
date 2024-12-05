@@ -6,8 +6,13 @@
 }: {
   virtualisation.virtualbox.host.enable = true;
   users.extraGroups.vboxusers.members = [host.mainUser];
-  virtualisation.virtualbox.host.package = pkgs.virtualbox;
+  virtualisation.virtualbox.host.package = pkgs.unstable.virtualbox;
+
+  boot.kernelParams = ["kvm.enable_virt_at_load=0"];
 
   virtualisation.docker.enable = true;
-  users.extraGroups.docker.members = [host.mainUser];
+  # users.extraGroups.docker.members = [host.mainUser]; # enabling this allows for a trivial privilege escalation
+  environment.shellAliases = {
+    docker = "sudo docker";
+  };
 }

@@ -71,6 +71,7 @@
     wget
     tree
     git
+    dnsutils
     alejandra
 
     htop

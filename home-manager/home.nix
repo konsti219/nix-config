@@ -100,6 +100,9 @@
     alias uir = la reg
     alias di1 = disas /r $pc, +1
   '';
+  home.file.".gdbearlyinit".text = ''
+    set startup-quietly on
+  '';
 
   # Enable eza with icons for mainUser
   programs.eza = {
