@@ -37,7 +37,7 @@
       socat
       nmap
       iptables
-      # ipscan
+      ipscan
       wireguard-tools
 
       # Misc
@@ -50,6 +50,7 @@
       gparted
       glow
       yubikey-manager-qt
+      imagemagickBig
 
       # Dev tools
       android-studio
@@ -68,7 +69,7 @@
       # Creative tools
       pkgs.blender
       gimp
-      # orca-slicer
+      orca-slicer
 
       # Other software
       pkgs.discord
