@@ -49,7 +49,7 @@
       zstd
       gparted
       glow
-      yubikey-manager-qt
+      yubioath-flutter
       imagemagickBig
 
       # Dev tools
