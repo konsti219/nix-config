@@ -65,6 +65,7 @@
       gh
       arduino-ide
       python3
+      vscode
 
       # Creative tools
       pkgs.blender

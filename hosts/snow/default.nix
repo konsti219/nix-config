@@ -26,7 +26,9 @@
       steam
       virtualisation
     ]);
-  modulesSecret = with inputs.secrets.nixosModules; [vpn];
+  modulesSecret = with inputs.secrets.nixosModules; [
+    # vpn
+  ];
 
   homeManagerModules = with outputs.homeManagerModules; [];
   homeManagerModulesSecret = with inputs.secrets.homeManagerModules; [home];
