@@ -78,7 +78,7 @@
       superTuxKart
     ])
     ++ (with pkgs; [
-      yakuake
+      kdePackages.yakuake
     ]);
 
   # git config

@@ -29,7 +29,9 @@
 
       # custom fonts
       meslo-lgs-nf
-      (nerdfonts.override {fonts = ["FiraCode" "DroidSansMono" "Meslo"];})
+      nerd-fonts.fira-code
+      nerd-fonts.droid-sans-mono
+      nerd-fonts.meslo-lg
     ];
   };
   # tty font
