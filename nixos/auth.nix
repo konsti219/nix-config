@@ -1,5 +1,5 @@
 # Services for auth and logon and stuff. Mainly gnupg and ssh.
-{...}: {
+{host, ...}: {
   # programs.mtr.enable = true;
   programs.gnupg.agent = {
     enable = true;
@@ -14,8 +14,8 @@
   # Enable the OpenSSH daemon.
   services.openssh = {
     # enable = true;
+    settings.AllowUsers = [host.mainUser];
     settings.PermitRootLogin = "no";
-    # require public key authentication
     settings.PasswordAuthentication = false;
     settings.KbdInteractiveAuthentication = false;
   };

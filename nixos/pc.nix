@@ -70,6 +70,7 @@
     unstable.vscodium
     unstable.nil
     wireshark
+    gparted
   ];
   hardware.graphics.enable = true;
   programs.wireshark.enable = true;
