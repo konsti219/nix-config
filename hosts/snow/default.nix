@@ -27,7 +27,7 @@
       virtualisation
     ]);
   modulesSecret = with inputs.secrets.nixosModules; [
-    # vpn
+    vpn
   ];
 
   homeManagerModules = with outputs.homeManagerModules; [];
