@@ -69,7 +69,7 @@
 
       # Creative tools
       pkgs.blender
-      gimp
+      gimp3
       orca-slicer
 
       # Other software
