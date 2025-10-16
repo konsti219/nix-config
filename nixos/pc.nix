@@ -51,20 +51,6 @@
     expat
   ];
 
-  # Automatically update system
-  system.autoUpgrade = {
-    enable = true;
-    flake = inputs.self.outPath;
-    flags = [
-      "--update-input"
-      "nixpkgs"
-      # "--no-write-lock-file"
-      "-L" # print build logs
-    ];
-    dates = "daily";
-    randomizedDelaySec = "5min";
-  };
-
   # General Desktop software
   environment.systemPackages = with pkgs; [
     firefox
@@ -76,4 +62,6 @@
   ];
   hardware.graphics.enable = true;
   programs.wireshark.enable = true;
+
+  services.flatpak.enable = true;
 }
