@@ -15,4 +15,16 @@
 
   # Enable fingerprint support
   services.fprintd.enable = true;
+
+  # Failed attempt to disable fingerprint when lid is closed
+  # systemd.services.fprintd.extraConfig = ''
+  #   [Service]
+  #   ExecStartPre=grep -q open /proc/acpi/button/lid/LID0/state
+  # '';
+  # systemd.services.fprintd.serviceConfig = {
+  #   ExecStartPre = "${pkgs.gnugrep}/bin/grep -q open /proc/acpi/button/lid/LID0/state";
+  # };
+
+  # Thunderbolt
+  services.hardware.bolt.enable = true;
 }
