@@ -56,6 +56,7 @@
 
   nixpkgs.overlays = [
     outputs.overlays.unstable-packages
+    outputs.overlays.additions
   ];
 
   # ========
@@ -68,6 +69,7 @@
 
     file
     eza
+    bat
     wget
     tree
     git
@@ -92,7 +94,10 @@
   environment.shellAliases = {
     ls = "eza";
     ll = "eza -l";
-    l = "eza -la";
+    # l = "eza -la";
+    l = "${pkgs.printpath}/bin/printpath.sh";
+    cat = "bat";
+
     sudo = "doas";
     neofetch = "fastfetch";
   };

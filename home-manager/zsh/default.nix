@@ -1,20 +1,21 @@
 # Configure zsh
-{pkgs, ...}: {
-  home.shellAliases = {
-    # useful shorthands
-    e = "codium .";
-    c = "cd";
+{
+  pkgs,
+  outputs,
+  ...
+} @ args: {
+  home.shellAliases =
+    {
+      # useful shorthands
+      e = "codium .";
+      c = "cd";
 
-    # anti-prank prank
-    vi = "loginctl lock-session #";
-    vim = "loginctl lock-session #";
-    nvim = "loginctl lock-session #";
-
-    # TODO: depuplicate from nixos/general.nix
-    ls = "eza";
-    ll = "eza -l";
-    l = "eza -la";
-  };
+      # anti-prank prank
+      vi = "loginctl lock-session #";
+      vim = "loginctl lock-session #";
+      nvim = "loginctl lock-session #";
+    }
+    // (outputs.nixosModules.general args).environment.shellAliases;
   programs.bash.enable = true;
   programs.zsh = {
     enable = true;
