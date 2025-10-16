@@ -15,71 +15,67 @@
   home.homeDirectory = "/home/${host.mainUser}";
 
   # Packages that should be installed to the user profile.
-  home.packages =
-    (with pkgs.unstable; [
-      # Utils
-      nnn
-      zip
-      xz
-      unzip
-      p7zip
-      ripgrep
-      jq
-      fzf
-      comma
-      screen
+  home.packages = with pkgs.unstable; [
+    # Utils
+    nnn
+    zip
+    xz
+    unzip
+    p7zip
+    ripgrep
+    jq
+    fzf
+    comma
+    screen
 
-      # Networking tools
-      mtr # A network diagnostic tool
-      iperf3
-      dnsutils # `dig` + `nslookup`
-      ldns
-      socat
-      nmap
-      iptables
-      ipscan
-      wireguard-tools
+    # Networking tools
+    mtr # A network diagnostic tool
+    iperf3
+    dnsutils
+    ldns
+    socat
+    nmap
+    iptables
+    ipscan
+    wireguard-tools
 
-      # Misc
-      cowsay
-      which
-      gnused
-      gnutar
-      gawk
-      zstd
-      gparted
-      glow
-      yubioath-flutter
-      imagemagickBig
+    # Misc
+    cowsay
+    which
+    gnused
+    gnutar
+    gawk
+    zstd
+    gparted
+    glow
+    yubioath-flutter
+    imagemagickBig
+    pkgs.kdePackages.yakuake
 
-      # Dev tools
-      android-studio
-      (hiPrio clang)
-      clang-tools
-      gcc
-      gnumake
-      gdb
-      # pwndbg
-      nasm
-      rustup
-      gh
-      arduino-ide
-      python3
-      vscode
+    # Dev tools
+    android-studio
+    (hiPrio clang)
+    clang-tools
+    gcc
+    gnumake
+    gdb
+    # pwndbg
+    nasm
+    rustup
+    gh
+    arduino-ide
+    python3
+    vscode
 
-      # Creative tools
-      pkgs.blender
-      gimp3
-      orca-slicer
+    # Creative tools
+    pkgs.blender
+    gimp3
 
-      # Other software
-      pkgs.discord
-      prismlauncher
-      superTuxKart
-    ])
-    ++ (with pkgs; [
-      kdePackages.yakuake
-    ]);
+    # Other software
+    pkgs.discord
+    signal-desktop
+    prismlauncher
+  ];
 
   # git config
   programs.git = {
