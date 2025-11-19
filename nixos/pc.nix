@@ -49,6 +49,25 @@
     openssl
     curl
     expat
+    glib
+    nspr
+    at-spi2-core
+    cups
+    libdrm
+    dbus
+    gtk3
+    pango
+    cairo
+    libgbm
+    libxkbcommon
+    alsa-lib
+    xorg.libX11
+    xorg.libXcomposite
+    xorg.libXdamage
+    xorg.libXext
+    xorg.libXfixes
+    xorg.libXrandr
+    xorg.libxcb
   ];
 
   # General Desktop software
