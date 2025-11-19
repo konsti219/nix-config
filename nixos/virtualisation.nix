@@ -15,9 +15,18 @@
 
   boot.kernelParams = ["kvm.enable_virt_at_load=0"];
 
-  virtualisation.docker.enable = true;
+  # virtualisation.docker.enable = true;
   # users.extraGroups.docker.members = [host.mainUser]; # enabling this allows for a trivial privilege escalation
-  environment.shellAliases = {
-    docker = "sudo docker";
+  # environment.shellAliases = {
+  #   docker = "sudo docker";
+  # };
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+    dockerSocket.enable = true;
+    autoPrune = {
+      enable = true;
+      dates = "daily";
+    };
   };
 }
