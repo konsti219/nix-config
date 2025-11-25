@@ -36,7 +36,7 @@
     socat
     nmap
     iptables
-    ipscan
+    # ipscan
     wireguard-tools
 
     # Misc
@@ -54,7 +54,7 @@
 
     # Dev tools
     android-studio
-    (hiPrio clang)
+    (lib.hiPrio clang)
     clang-tools
     gcc
     gnumake
@@ -81,7 +81,7 @@
   programs.git = {
     enable = true;
     lfs.enable = true;
-    extraConfig = {
+    settings = {
       core.editor = "codium --wait";
       init.defaultbranch = "main";
     };
