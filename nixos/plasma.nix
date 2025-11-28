@@ -25,8 +25,6 @@
 
   # KDE Connect
   programs.kdeconnect.enable = true;
-  programs.kdeconnect.package = lib.mkForce pkgs.unstable.kdePackages.kdeconnect-kde;
-  # programs.kdeconnect.package = pkgs.plasma5Packages.kdeconnect-kde;
 
   services.ratbagd.enable = true;
 
