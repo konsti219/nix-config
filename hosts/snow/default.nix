@@ -31,6 +31,7 @@
   ];
 
   homeManagerModules = with outputs.homeManagerModules; [
+    desktop
     ({...}: {home.stateVersion = "23.11";}) # Don't change!
   ];
   homeManagerModulesSecret = with inputs.secrets.homeManagerModules; [home];

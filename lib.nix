@@ -45,5 +45,21 @@
       })
     (variantsToConfig systems mainUser);
 
+  systemsToHomeConfig = systems: mainUser:
+    builtins.mapAttrs
+    (_name: host:
+      inputs.home-manager-unstable.lib.homeManagerConfiguration {
+        pkgs = inputs.nixpkgs-unstable.legacyPackages.${host.platform};
+        extraSpecialArgs = {
+          inherit inputs outputs host;
+        };
+        modules = [
+          outputs.nixosModules.nixpkgs # Bit of a hack to get nixpkgs configured correctly
+          outputs.homeManagerModules.base
+          ./home-manager/home.nix
+        ];
+      })
+    (variantsToConfig systems mainUser);
+
   forSystems = systems: lib.genAttrs (builtins.attrNames systems);
 }

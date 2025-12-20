@@ -16,6 +16,10 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
+    home-manager-unstable = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
 
     # lanzaboote (secure boot)
     lanzaboote = {
@@ -51,7 +55,10 @@
 
     # List of all hosts for each platform
     systems = {
-      x86_64-linux = [(import ./hosts/snow args)];
+      x86_64-linux = [
+        (import ./hosts/snow args)
+        (import ./hosts/hail args)
+      ];
     };
 
     # Helper function to generate a set of attributes for each system
@@ -69,6 +76,9 @@
 
     # NixOS Hosts
     nixosConfigurations = configLib.systemsToConfig systems mainUser;
+
+    # Home Manager Configs
+    homeConfigurations = configLib.systemsToHomeConfig systems mainUser;
 
     # Formatter for nix code in this flake
     formatter = forSystems (

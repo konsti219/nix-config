@@ -15,7 +15,7 @@
       vim = "loginctl lock-session #";
       nvim = "loginctl lock-session #";
     }
-    // (outputs.nixosModules.general args).environment.shellAliases;
+    // (outputs.nixosModules.packages args).environment.shellAliases;
   programs.bash.enable = true;
   programs.zsh = {
     enable = true;

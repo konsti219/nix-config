@@ -1,11 +1,12 @@
 # Genral config to be used across all systems
 {
-  lib,
   pkgs,
   outputs,
   host,
   ...
 }: {
+  imports = [outputs.nixosModules.nixpkgs];
+
   # ====
   # Boot
   # ====
@@ -41,45 +42,9 @@
   # Enable new cli and flakes
   nix.settings.experimental-features = ["nix-command" "flakes"];
 
-  # The only unfree packages allowed are listed here.
-  # nixpkgs.config.allowUnfree = true;
-  nixpkgs.config.allowUnfreePredicate = pkg:
-    builtins.elem (lib.getName pkg) [
-      "android-studio-stable"
-      "discord"
-      "steam"
-      "steam-original"
-      "steam-run"
-      "steam-unwrapped"
-      "zerotierone"
-      "displaylink"
-    ];
-
-  nixpkgs.overlays = [
-    outputs.overlays.unstable-packages
-    outputs.overlays.additions
-  ];
-
   # ========
-  # Packages
+  # Security
   # ========
-
-  environment.systemPackages = with pkgs; [
-    vim
-    nano
-
-    file
-    eza
-    bat
-    wget
-    tree
-    git
-    dnsutils
-    alejandra
-
-    htop
-    fastfetch
-  ];
 
   security.sudo.enable = false;
   security.doas.enable = true;
@@ -92,13 +57,6 @@
   ];
 
   environment.shellAliases = {
-    ls = "eza";
-    ll = "eza -l";
-    # l = "eza -la";
-    l = "${pkgs.printpath}/bin/printpath.sh";
-    cat = "bat";
-
     sudo = "doas";
-    neofetch = "fastfetch";
   };
 }

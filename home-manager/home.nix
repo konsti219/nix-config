@@ -46,14 +46,10 @@
     gnutar
     gawk
     zstd
-    gparted
     glow
-    yubioath-flutter
     imagemagickBig
-    pkgs.kdePackages.yakuake
 
     # Dev tools
-    android-studio
     (lib.hiPrio clang)
     clang-tools
     gcc
@@ -63,7 +59,6 @@
     nasm
     rustup
     gh
-    arduino-ide
     (pkgs.python3.withPackages (python-pkgs: [
       python-pkgs.requests
       python-pkgs.python-dotenv
@@ -71,16 +66,6 @@
       python-pkgs.pandas
       python-pkgs.matplotlib
     ]))
-    vscode
-
-    # Creative tools
-    pkgs.blender
-    gimp3
-
-    # Other software
-    pkgs.discord
-    signal-desktop
-    prismlauncher
   ];
 
   # git config
