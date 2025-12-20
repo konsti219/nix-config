@@ -1,5 +1,4 @@
 {
-  config,
   pkgs,
   outputs,
   host,
@@ -27,6 +26,7 @@
     fzf
     comma
     screen
+    btop
 
     # Networking tools
     mtr # A network diagnostic tool
@@ -64,7 +64,13 @@
     rustup
     gh
     arduino-ide
-    python3
+    (pkgs.python3.withPackages (python-pkgs: [
+      python-pkgs.requests
+      python-pkgs.python-dotenv
+      python-pkgs.numpy
+      python-pkgs.pandas
+      python-pkgs.matplotlib
+    ]))
     vscode
 
     # Creative tools
@@ -107,8 +113,6 @@
     enable = true;
     icons = "auto";
   };
-
-  home.stateVersion = "23.11"; # Don't change!
 
   # Let home Manager install and manage itself.
   programs.home-manager.enable = true;

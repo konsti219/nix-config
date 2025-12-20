@@ -30,6 +30,8 @@
     vpn
   ];
 
-  homeManagerModules = with outputs.homeManagerModules; [];
+  homeManagerModules = with outputs.homeManagerModules; [
+    ({...}: {home.stateVersion = "23.11";}) # Don't change!
+  ];
   homeManagerModulesSecret = with inputs.secrets.homeManagerModules; [home];
 }
