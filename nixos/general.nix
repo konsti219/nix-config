@@ -5,7 +5,7 @@
   host,
   ...
 }: {
-  imports = [outputs.nixosModules.nixpkgs];
+  imports = [outputs.nixosModules.nixpkgs outputs.nixosModules.packages];
 
   # ====
   # Boot

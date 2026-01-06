@@ -66,6 +66,7 @@
       python-pkgs.pandas
       python-pkgs.matplotlib
     ]))
+    uv
   ];
 
   # git config
