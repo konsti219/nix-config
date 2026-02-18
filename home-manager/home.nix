@@ -54,6 +54,7 @@
     clang-tools
     gcc
     gnumake
+    just
     gdb
     # pwndbg
     nasm
@@ -98,6 +99,13 @@
   programs.eza = {
     enable = true;
     icons = "auto";
+  };
+
+  # Enable direnv for easier flake usage
+  programs.direnv = {
+    enable = true;
+    silent = true;
+    nix-direnv.enable = true;
   };
 
   # Let home Manager install and manage itself.
