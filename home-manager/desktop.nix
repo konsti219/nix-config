@@ -18,5 +18,6 @@
     pkgs.discord
     signal-desktop
     prismlauncher
+    parsec-bin
   ];
 }
