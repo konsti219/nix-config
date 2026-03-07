@@ -3,6 +3,7 @@
   general = import ./general.nix;
   home-manager = import ./home-manager.nix;
 
+  autologin = import ./autologin.nix;
   android-dev = import ./android-dev.nix;
   auth = import ./auth.nix;
   locale = import ./locale.nix;

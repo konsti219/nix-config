@@ -15,7 +15,7 @@
     gimp3
 
     # Other software
-    pkgs.discord
+    vesktop
     signal-desktop
     prismlauncher
     parsec-bin

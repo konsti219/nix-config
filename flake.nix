@@ -59,6 +59,7 @@
       x86_64-linux = [
         (import ./hosts/snow args)
         (import ./hosts/hail args)
+        (import ./hosts/hail-wsl args)
       ];
     };
 

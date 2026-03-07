@@ -12,7 +12,7 @@
   # ====
 
   # Use latest Linux kernel
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   # For better interop
   boot.supportedFilesystems = ["ntfs"];
 
