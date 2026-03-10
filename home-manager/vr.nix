@@ -1,10 +1,7 @@
-{pkgs, lib, inputs, ...}: {
+{pkgs, lib, inputs, config, host, ...}: {
   xdg = {
     # https://lvra.gitlab.io/docs/distros/nixos/#runtimes
-    configFile."openxr/1/active_runtime.json" = {
-      inherit (osConfig.environment.etc."xdg/openxr/1/active_runtime.json") source;
-      force = true;
-    };
+    configFile."openxr/1/active_runtime.json".source = "${pkgs.unstable.wivrn}/share/openxr/1/openxr_wivrn.json";
 
     # https://github.com/wlx-team/wayvr/wiki/Customization
     configFile."wayvr" = {
@@ -13,22 +10,22 @@
       force = true;
     };
 
-    # https://lvra.gitlab.io/docs/fossvr/opencomposite/#rebinding-controls
-    dataFile."Steam/steamapps/common/VRChat/OpenComposite/oculus_touch.json" = {
-      source = ./opencomposite/vrchat/oculus_touch.json;
-    };
-  };
+    configFile."openvr/openvrpaths.vrpath".text = let
+      steam = "${config.xdg.dataHome}/Steam";
+    in builtins.toJSON {
+      version = 1;
+      jsonid = "vrpathreg";
 
-  # TODO temporary workaround until https://www.github.com/hyprwm/xdg-desktop-portal-hyprland/issues/329 is implemented properly
-  wayland.windowManager.hyprland.xdgDesktopPortalHyprland.settings = {
-    screencopy = {
-      custom_picker_binary = lib.getExe (
-        pkgs.writeShellApplication {
-          name = "hyprland-share-picker-xr";
-          runtimeInputs = [ osConfig.programs.hyprland.portalPackage ];
-          text = lib.readFile ./hyprland-share-picker-xr.sh;
-        }
-      );
+      external_drivers = null;
+      config = [ "${steam}/config" ];
+
+      log = [ "${steam}/logs" ];
+
+      runtime = [
+        # "${pkgs.xrizer}/lib/xrizer"
+        # OR
+        "${pkgs.unstable.opencomposite}/lib/opencomposite"
+      ];
     };
   };
 }

@@ -24,6 +24,7 @@
       plasma
       steam
       virtualisation
+      vr
     ]);
   modulesSecret = with inputs.secrets.nixosModules; [
     vpn
@@ -31,6 +32,7 @@
 
   homeManagerModules = with outputs.homeManagerModules; [
     desktop
+    vr
     ({...}: {home.stateVersion = "25.11";}) # Don't change!
   ];
   homeManagerModulesSecret = with inputs.secrets.homeManagerModules; [home];

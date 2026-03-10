@@ -13,4 +13,5 @@
   plasma = import ./plasma.nix;
   steam = import ./steam.nix;
   virtualisation = import ./virtualisation.nix;
+  vr = import ./vr.nix;
 }

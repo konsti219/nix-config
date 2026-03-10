@@ -100,4 +100,5 @@
   ];
   services.flatpak.enable = true;
   programs.wireshark.enable = true;
+  services.davfs2.enable = true;
 }

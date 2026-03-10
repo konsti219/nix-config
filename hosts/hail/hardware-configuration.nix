@@ -35,6 +35,7 @@
   fileSystems."/mnt/data" = {
     device = "/dev/disk/by-uuid/B8C2950AC294CE4E";
     fsType = "ntfs";
+    options = ["uid=1000" "gid=1000"];
   };
 
   fileSystems."/mnt/windows" = {
