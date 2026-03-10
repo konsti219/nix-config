@@ -22,6 +22,7 @@
       locale
       pc
       plasma
+      remote
       steam
       virtualisation
       vr
