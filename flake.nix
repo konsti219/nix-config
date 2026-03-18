@@ -28,6 +28,11 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
+    pipemeeter = {
+      url = "git+ssh://github.com_konsti219/konsti219/pipemeeter?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
+
     # Private NixOS/Home Manager modules that are excluded in *-generic hosts
     secrets = {
       url = "git+ssh://github.com_konsti219/konsti219/nix-config-secrets.git?ref=main";

@@ -97,8 +97,11 @@
     wireshark
     gparted
     qpwgraph
+    inputs.pipemeeter.packages.${pkgs.stdenv.hostPlatform.system}.default
+    piper
   ];
   services.flatpak.enable = true;
   programs.wireshark.enable = true;
   services.davfs2.enable = true;
+  services.ratbagd.enable = true;
 }

@@ -16,6 +16,7 @@
 
     # Other software
     vesktop
+    discord
     signal-desktop
     prismlauncher
     parsec-bin

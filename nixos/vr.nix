@@ -1,4 +1,9 @@
-{pkgs, lib, inputs, ...}: {
+{
+  pkgs,
+  lib,
+  inputs,
+  ...
+}: {
   services.wivrn = {
     enable = true;
     package = pkgs.unstable.wivrn;
@@ -6,28 +11,21 @@
     openFirewall = true;
     defaultRuntime = true;
     steam.importOXRRuntimes = true;
-    config.json.openvr-compat-path = "${pkgs.unstable.opencomposite}/lib/opencomposite";
+    config.enable = true;
+    config.json = {
+      application = [pkgs.unstable.wayvr];
+      openvr-compat-path = "${pkgs.unstable.xrizer}/lib/xrizer";
+    };
   };
 
-  systemd.user.services = {
-    # wayvr = {
-    #   description = "wayvr";
-    #   after = [ "wivrn.service" ];
-    #   requires = [ "wivrn.service" ];
-    #   partOf = [ "wivrn.service" ];
-
-    #   serviceConfig = {
-    #     ExecStart = "${lib.getExe pkgs.unstable.wayvr} --openxr --replace";
-    #     Restart = "on-failure";
-    #   };
-    # };
-  };
-
-  networking.firewall.allowedUDPPorts = [ 6969 ];
+  networking.firewall.allowedUDPPorts = [6969];
 
   environment.systemPackages = with pkgs.unstable; [
-    slimevr
-    vrcx
     wayvr
+    nvtopPackages.amd
+    vrcx
+    slimevr
+    oscavmgr
+    vrcadvert
   ];
 }
