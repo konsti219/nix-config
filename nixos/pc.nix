@@ -2,6 +2,7 @@
 {
   pkgs,
   inputs,
+  host,
   ...
 }: {
   # Enable support for Bluetooth
@@ -28,7 +29,11 @@
     #media-session.enable = true;
   };
 
-  hardware.graphics.enable = true;
+  hardware.graphics = {
+    enable = true;
+    package = pkgs.unstable.mesa;
+    package32 = pkgs.unstable.pkgsi686Linux.mesa;
+  };
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
@@ -103,5 +108,11 @@
   services.flatpak.enable = true;
   programs.wireshark.enable = true;
   services.davfs2.enable = true;
-  services.ratbagd.enable = true;
+  services.ratbagd = {
+    enable = true;
+    package = pkgs.unstable.libratbag;
+  };
+  users.users.${host.mainUser} = {
+    extraGroups = ["games"];
+  };
 }

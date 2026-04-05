@@ -26,12 +26,10 @@
   # KDE Connect
   programs.kdeconnect.enable = true;
 
-  services.ratbagd.enable = true;
-
+  # DisplayLink
   environment.systemPackages = with pkgs; [
     displaylink
   ];
-  # services.xserver.videoDrivers = ["displaylink" "modesetting"];
   boot = {
     extraModulePackages = [config.boot.kernelPackages.evdi];
     initrd.kernelModules = ["evdi"];
