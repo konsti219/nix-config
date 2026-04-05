@@ -75,6 +75,10 @@
       left: "/user/hand/left/input/trigger/value",
       right: "/user/hand/right/input/trigger/value"
     },
+    click_right: {
+      left: "/user/hand/left/input/y/click",
+      right: "/user/hand/right/input/b/click"
+    },
     grab: {
       left: "/user/hand/left/input/squeeze/value",
       right: "/user/hand/right/input/squeeze/value"
@@ -98,10 +102,10 @@
       double_click: true,
       left: "/user/hand/left/input/x/click",
     },
-    click_modifier_right: {
-      left: "/user/hand/left/input/y/touch",
-      right: "/user/hand/right/input/b/touch"
-    },
+    // click_modifier_right: {
+    //   left: "/user/hand/left/input/y/touch",
+    //   right: "/user/hand/right/input/b/touch"
+    // },
     // click_modifier_middle: {
     //   left: "/user/hand/left/input/x/touch",
     //   right: "/user/hand/right/input/a/touch"

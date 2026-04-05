@@ -3,7 +3,7 @@
   lib,
   inputs,
   ...
-}: {
+}: rec {
   services.wivrn = {
     enable = true;
     package = pkgs.unstable.wivrn;
@@ -25,7 +25,5 @@
     nvtopPackages.amd
     vrcx
     slimevr
-    oscavmgr
-    vrcadvert
   ];
 }

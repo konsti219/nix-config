@@ -30,7 +30,12 @@
 
     pipemeeter = {
       url = "git+ssh://github.com_konsti219/konsti219/pipemeeter?ref=main";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
+
+    wayvr = {
+      url = "git+ssh://github.com_konsti219/konsti219/wayvr?ref=main";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     # Private NixOS/Home Manager modules that are excluded in *-generic hosts

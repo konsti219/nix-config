@@ -18,6 +18,12 @@
     unstable = import inputs.nixpkgs-unstable {
       system = final.stdenv.hostPlatform.system;
       config.allowUnfree = true;
+      overlays = [
+        # Include wayvr overlay to have it in unstable
+        (final: prev: {
+          wayvr = inputs.wayvr.packages.${final.stdenv.hostPlatform.system}.default;
+        })
+      ];
     };
   };
 }
