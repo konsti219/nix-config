@@ -97,7 +97,7 @@
   environment.systemPackages = with pkgs; [
     firefox
     thunderbird
-    unstable.vscodium
+    unstable.vscode
     unstable.nil
     wireshark
     gparted

@@ -8,7 +8,6 @@
     # Dev tools
     android-studio
     arduino-ide
-    vscode
 
     # Creative tools
     pkgs.blender

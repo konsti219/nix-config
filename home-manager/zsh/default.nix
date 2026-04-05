@@ -7,7 +7,7 @@
   home.shellAliases =
     {
       # useful shorthands
-      e = "codium .";
+      e = "code .";
       c = "cd";
 
       # anti-prank prank

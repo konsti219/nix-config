@@ -75,7 +75,7 @@
     enable = true;
     lfs.enable = true;
     settings = {
-      core.editor = "codium --wait";
+      core.editor = "code --wait";
       init.defaultbranch = "main";
     };
   };
