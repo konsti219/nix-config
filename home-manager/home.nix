@@ -48,6 +48,7 @@
     zstd
     glow
     imagemagickBig
+    obs-studio
 
     # Dev tools
     (lib.hiPrio clang)

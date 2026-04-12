@@ -9,7 +9,6 @@
     package = pkgs.unstable.wivrn;
     autoStart = true;
     openFirewall = true;
-    defaultRuntime = true;
     steam.importOXRRuntimes = true;
     config.enable = true;
     config.json = {
