@@ -1,5 +1,9 @@
 # Steam config
-{pkgs, inputs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true;
@@ -31,4 +35,5 @@
   ];
 
   hardware.steam-hardware.enable = true;
+  boot.kernelModules = ["ntsync"];
 }
