@@ -26,7 +26,6 @@
     fzf
     comma
     screen
-    btop
 
     # Networking tools
     mtr # A network diagnostic tool

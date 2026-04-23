@@ -95,10 +95,11 @@
 
   # General Desktop software
   environment.systemPackages = with pkgs; [
-    firefox
+    unstable.firefox
     thunderbird
     unstable.vscode
     unstable.nil
+    btop
     wireshark
     gparted
     qpwgraph
@@ -106,8 +107,17 @@
     piper
   ];
   services.flatpak.enable = true;
+
+  security.wrappers.btop = {
+    source = "${pkgs.btop}/bin/btop";
+    capabilities = "cap_perfmon+ep";
+    owner = "root";
+    group = "root";
+  };
+
   programs.wireshark.enable = true;
   services.davfs2.enable = true;
+
   services.ratbagd = {
     enable = true;
     package = pkgs.unstable.libratbag;
