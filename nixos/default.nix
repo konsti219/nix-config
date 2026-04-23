@@ -6,6 +6,7 @@
   autologin = import ./autologin.nix;
   android-dev = import ./android-dev.nix;
   auth = import ./auth.nix;
+  displaylink = import ./displaylink.nix;
   locale = import ./locale.nix;
   nixpkgs = import ./nixpkgs.nix;
   packages = import ./packages.nix;

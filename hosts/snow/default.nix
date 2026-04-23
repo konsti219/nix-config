@@ -20,6 +20,7 @@
 
       android-dev
       auth
+      displaylink
       locale
       pc
       plasma
