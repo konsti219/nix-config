@@ -28,6 +28,7 @@
       vr
     ]);
   modulesSecret = with inputs.secrets.nixosModules; [
+    remotebuilder
     vpn
   ];
 

@@ -28,6 +28,7 @@
       virtualisation
     ]);
   modulesSecret = with inputs.secrets.nixosModules; [
+    remoteclient
     vpn
   ];
 
