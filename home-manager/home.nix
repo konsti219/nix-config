@@ -68,6 +68,7 @@
       python-pkgs.matplotlib
     ]))
     uv
+    dbeaver-bin
   ];
 
   # git config
