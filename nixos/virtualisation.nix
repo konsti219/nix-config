@@ -31,4 +31,7 @@
   environment.variables = {
     PODMAN_COMPOSE_WARNING_LOGS = "false";
   };
+  environment.shellAliases = {
+    pc = "podman compose";
+  };
 }
