@@ -4,7 +4,6 @@
   home-manager = import ./home-manager.nix;
 
   autologin = import ./autologin.nix;
-  android-dev = import ./android-dev.nix;
   auth = import ./auth.nix;
   displaylink = import ./displaylink.nix;
   locale = import ./locale.nix;

@@ -10,6 +10,9 @@
     gamescopeSession.enable = true;
     protontricks.enable = true;
 
+    extraPackages = [
+      pkgs.hidapi
+    ];
     extraCompatPackages = with pkgs.unstable; [
       # pkgs.proton-ge-rtsp-bin
       proton-ge-bin

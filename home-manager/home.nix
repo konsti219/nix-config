@@ -69,6 +69,7 @@
     ]))
     uv
     dbeaver-bin
+    android-tools
   ];
 
   # git config

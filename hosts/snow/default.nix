@@ -18,7 +18,6 @@
       general
       home-manager
 
-      android-dev
       auth
       displaylink
       locale

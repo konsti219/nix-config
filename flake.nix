@@ -2,8 +2,8 @@
   description = "NixOS config flake";
 
   inputs = {
-    # Stable 25.11 NixOS/nixpkgs
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-25.11";
+    # Stable 26.05 NixOS/nixpkgs
+    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-26.05";
 
     # Unstable NixOS/nixpkgs
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -14,7 +14,7 @@
 
     # Home Manger GitHub repo
     home-manager = {
-      url = "github:nix-community/home-manager/release-25.11";
+      url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
     home-manager-unstable = {

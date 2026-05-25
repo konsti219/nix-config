@@ -19,7 +19,6 @@
 
       auth
       autologin
-      android-dev
       locale
       pc
       plasma
