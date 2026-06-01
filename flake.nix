@@ -10,7 +10,10 @@
     # nixpkgs-unstable.url = "github:NixOS/nixpkgs/master"; # Master branch: fastest updates, least cache
 
     # NixOS Hardware GitHub repo
-    nixos-hardware.url = "github:NixOS/nixos-hardware/master";
+    nixos-hardware = {
+      url = "github:NixOS/nixos-hardware/master";
+      inputs.nixpkgs.follows = "nixpkgs-stable";
+    };
 
     # Home Manger GitHub repo
     home-manager = {

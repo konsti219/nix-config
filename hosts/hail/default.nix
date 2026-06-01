@@ -11,6 +11,7 @@
       ./hardware-configuration.nix
       ./disks.nix
       ./gpu.nix
+      ./virtualisation.nix
       ({...}: {system.stateVersion = "25.11";}) # Don't change!
     ]
     ++ (with outputs.nixosModules; [

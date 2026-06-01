@@ -1,19 +1,7 @@
 # Options relating to Virtualisation
-{
-  host,
-  pkgs,
-  ...
-}: {
+{pkgs, ...}: {
   # virtualisation.virtualbox.host.enable = true;
-  # users.extraGroups.vboxusers.members = [host.mainUser];
   # virtualisation.virtualbox.host.package = pkgs.unstable.virtualbox;
-
-  environment.systemPackages = [
-    # pkgs.unstable.qemu
-  ];
-  # virtualisation.libvirtd.enable = true;
-
-  boot.kernelParams = ["kvm.enable_virt_at_load=0"];
 
   virtualisation.podman = {
     enable = true;
