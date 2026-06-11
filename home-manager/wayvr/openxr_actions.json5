@@ -15,6 +15,9 @@
 // -- toggle_dashboard --
 // run or toggle visibility of a previously configured WayVR-compatible dashboard
 //
+// -- reveal_watch --
+// reveal the watch's performance section, auto-hiding again after a timeout
+//
 // -- space_rotate --
 // rotate your stage (playspace rotate, WIP)
 //
@@ -78,6 +81,10 @@
     click_right: {
       left: "/user/hand/left/input/y/click",
       right: "/user/hand/right/input/b/click"
+    },
+    // Double-bound with click_right: only matters while aiming at the watch.
+    reveal_watch: {
+      left: "/user/hand/left/input/y/click",
     },
     grab: {
       left: "/user/hand/left/input/squeeze/value",

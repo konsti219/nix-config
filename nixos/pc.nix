@@ -93,9 +93,13 @@
     libxcb
   ];
 
+  programs.firefox = {
+    package = pkgs.unstable.firefox;
+    enable = true;
+  };
+
   # General Desktop software
   environment.systemPackages = with pkgs; [
-    unstable.firefox
     thunderbird
     unstable.vscode
     unstable.nil

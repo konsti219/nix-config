@@ -25,4 +25,20 @@
     vrcx
     slimevr
   ];
+
+  programs.firefox = {
+    # Use dev edition to install unsigned extensions
+    package = lib.mkForce pkgs.unstable.firefox-devedition;
+    nativeMessagingHosts.packages = [
+      pkgs.kdePackages.plasma-browser-integration
+      pkgs.unstable.wayvr-media-bridge
+    ];
+
+    policies.ExtensionSettings = {
+      "wayvr-ytmusic@konsti" = {
+        installation_mode = "force_installed";
+        install_url = "file://${pkgs.unstable.wayvr-ytmusic-extension}/wayvr-ytmusic@konsti.xpi";
+      };
+    };
+  };
 }
