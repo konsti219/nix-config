@@ -34,7 +34,7 @@
         # Include wayvr overlay to have it in unstable
         (final: prev: {
           wayvr = inputs.wayvr.packages.${final.stdenv.hostPlatform.system}.default;
-          wivrn = inputs.wayvr.packages.${final.stdenv.hostPlatform.system}.wivrn-monado-metrics;
+          wivrn = inputs.wayvr.packages.${final.stdenv.hostPlatform.system}.wivrn;
           wayvr-media-bridge = inputs.wayvr.packages.${final.stdenv.hostPlatform.system}.media-bridge;
           wayvr-ytmusic-extension = inputs.wayvr.packages.${final.stdenv.hostPlatform.system}.ytmusic-extension;
         })
