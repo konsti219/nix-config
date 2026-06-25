@@ -147,11 +147,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782233665,
-        "narHash": "sha256-h/xOtrByoA/Ak1lWHn0O1lVZz4qWYbwOSLQ8YSwQO0I=",
+        "lastModified": 1782415272,
+        "narHash": "sha256-Yt4nE/QSk1KRzOIMBK5/OOa7AH1Y0JbxNbgf5VTxQ6g=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "062581938b4a378a82dfbb294b494808157153a1",
+        "rev": "19d7472aca941c7e3d11e8a91d61be47d70c4ab5",
         "type": "github"
       },
       "original": {
@@ -191,11 +191,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1782166108,
-        "narHash": "sha256-/EtnQBcKbsaCAGQ5VRcplrHRkR4ryqyLMpBfkVuG9Xw=",
+        "lastModified": 1782379505,
+        "narHash": "sha256-zPvPiU+a7pqtH47xrtZLNRABJKpOjfZQclDbcvNtH+I=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "875776f0252fcb8618bb948640a0d1f7a5b362be",
+        "rev": "603d3afd1b6145bd66e97ae38a34d91c95df70cf",
         "type": "github"
       },
       "original": {
@@ -207,11 +207,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1782116945,
-        "narHash": "sha256-G3tw/IXmaH6IQ2upZvhuN9sG8CkuX+BLuJDpE8hz0Ds=",
+        "lastModified": 1782233679,
+        "narHash": "sha256-QyuGP5+QOtmXpy4i2X4DhBVBaySBdDKQEhqKcphcp34=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "34268251cf5547d39063f2c5ea9a196246f7f3a6",
+        "rev": "667d5cf1c59585031d743c78b394b0a647537c35",
         "type": "github"
       },
       "original": {
@@ -248,16 +248,15 @@
       "locked": {
         "lastModified": 1781119117,
         "narHash": "sha256-pZJYI67unovQqMej5f2qgmKyyU6s+63u3UwYh8Vgotw=",
-        "ref": "main",
+        "owner": "konsti219",
+        "repo": "pipemeeter",
         "rev": "7e9dd64869e12da70369dd225718bc1ae0385c08",
-        "revCount": 48,
-        "type": "git",
-        "url": "ssh://github.com_konsti219/konsti219/pipemeeter"
+        "type": "github"
       },
       "original": {
-        "ref": "main",
-        "type": "git",
-        "url": "ssh://github.com_konsti219/konsti219/pipemeeter"
+        "owner": "konsti219",
+        "repo": "pipemeeter",
+        "type": "github"
       }
     },
     "pre-commit": {
@@ -348,11 +347,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780315625,
-        "narHash": "sha256-06y3wnRMmNZf2s8yobqhPbUzPdTqVjiDrgRsRc7igSc=",
+        "lastModified": 1782410596,
+        "narHash": "sha256-92/gKpYWeM0O26/Myi8JihhkF3xX5bcBjY3jyUigU2U=",
         "ref": "main",
-        "rev": "9b2dbd99029e7d4c7e32080d986a7e8e350a4d2d",
-        "revCount": 28,
+        "rev": "b32d65dbfab746c2612e6b11be6253fca79d1c9e",
+        "revCount": 29,
         "type": "git",
         "url": "ssh://github.com_konsti219/konsti219/nix-config-secrets.git"
       },
@@ -404,16 +403,16 @@
       "locked": {
         "lastModified": 1782302069,
         "narHash": "sha256-KllJw7inxDud2SADDUrhTYEBxq0aIj0xTndedFSIQD4=",
-        "ref": "main",
+        "owner": "konsti219",
+        "repo": "wayvr",
         "rev": "cf5d75d0464c298b5b071c0254d6f34ea6497b13",
-        "revCount": 1301,
-        "type": "git",
-        "url": "ssh://github.com_konsti219/konsti219/wayvr"
+        "type": "github"
       },
       "original": {
-        "ref": "main",
-        "type": "git",
-        "url": "ssh://github.com_konsti219/konsti219/wayvr"
+        "owner": "konsti219",
+        "repo": "wayvr",
+        "rev": "cf5d75d0464c298b5b071c0254d6f34ea6497b13",
+        "type": "github"
       }
     }
   },

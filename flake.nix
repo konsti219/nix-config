@@ -32,12 +32,12 @@
     };
 
     pipemeeter = {
-      url = "git+ssh://github.com_konsti219/konsti219/pipemeeter?ref=main";
+      url = "github:konsti219/pipemeeter";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
     wayvr = {
-      url = "git+ssh://github.com_konsti219/konsti219/wayvr?ref=main";
+      url = "github:konsti219/wayvr/cf5d75d0464c298b5b071c0254d6f34ea6497b13";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 

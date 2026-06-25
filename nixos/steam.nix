@@ -22,6 +22,7 @@
       extraProfile = ''
         unset TZ
         export PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1
+        export PRESSURE_VESSEL_IMPORT_OPENXR_1_LAYERS=1
       '';
     };
   };

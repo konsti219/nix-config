@@ -4,6 +4,10 @@
   programs.gnupg.agent = {
     enable = true;
     # enableSSHSupport = true;
+    settings = {
+      default-cache-ttl = 3600;
+      max-cache-ttl = 3600;
+    };
   };
   services.pcscd.enable = true;
   programs.ssh = {
