@@ -12,6 +12,7 @@
     # Creative tools
     pkgs.blender
     gimp3
+    vlc
 
     # Other software
     vesktop

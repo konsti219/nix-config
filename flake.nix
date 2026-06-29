@@ -37,7 +37,7 @@
     };
 
     wayvr = {
-      url = "github:konsti219/wayvr/cf5d75d0464c298b5b071c0254d6f34ea6497b13";
+      url = "github:konsti219/wayvr";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
 
