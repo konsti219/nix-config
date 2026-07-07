@@ -1,4 +1,7 @@
 {pkgs, ...}: {
+  # Discord (+ Vencord + DiscordMuteBridge plugin + global-mute wiring)
+  imports = [./discord];
+
   # Desktop specific packages
   home.packages = with pkgs.unstable; [
     yubioath-flutter
@@ -15,7 +18,6 @@
     vlc
 
     # Other software
-    discord
     signal-desktop
     prismlauncher
     parsec-bin
