@@ -15,7 +15,6 @@
     vlc
 
     # Other software
-    vesktop
     discord
     signal-desktop
     prismlauncher
