@@ -47,7 +47,6 @@
     zstd
     glow
     imagemagickBig
-    obs-studio
 
     # Dev tools
     (lib.hiPrio clang)
@@ -108,6 +107,14 @@
     enable = true;
     silent = true;
     nix-direnv.enable = true;
+  };
+
+  programs.obs-studio = {
+    enable = true;
+    package = pkgs.unstable.obs-studio;
+    plugins = with pkgs.unstable.obs-studio-plugins; [
+      obs-pipewire-audio-capture
+    ];
   };
 
   # Let home Manager install and manage itself.

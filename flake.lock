@@ -246,11 +246,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1783101429,
-        "narHash": "sha256-drFnZ1olF8bLakqQVeQ6jA8pJ9JsoUMtln8NG6SXtqg=",
+        "lastModified": 1783801571,
+        "narHash": "sha256-oHnvj4AYUnhnsTspnqyPyxscN+6A4lrnOEh4ex219sk=",
         "owner": "konsti219",
         "repo": "pipemeeter",
-        "rev": "0e6719c08bf78ce9f3aadddf08ae70d42caaa9ce",
+        "rev": "e65cd643a72135d061ef1444a27443a611fd6761",
         "type": "github"
       },
       "original": {
