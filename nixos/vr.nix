@@ -24,6 +24,7 @@
     nvtopPackages.amd
     vrcx
     slimevr
+    bs-manager
   ];
 
   programs.firefox = {
