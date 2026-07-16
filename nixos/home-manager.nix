@@ -24,9 +24,4 @@
   };
   # required here because shell is set to zsh
   programs.zsh.enable = true;
-
-  # Define guest account
-  # users.users.guest = {
-  #   isNormalUser = true;
-  # };
 }

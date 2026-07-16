@@ -109,6 +109,7 @@
     qpwgraph
     inputs.pipemeeter.packages.${pkgs.stdenv.hostPlatform.system}.default
     piper
+    chromium
   ];
   services.flatpak.enable = true;
 
