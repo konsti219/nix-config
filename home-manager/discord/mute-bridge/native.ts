@@ -1,16 +1,14 @@
-// Main-process half: listens on a unix socket for mute commands from the
-// `discord-mute` CLI and queues them for the renderer to apply.
+// Main-process half: listens on an abstract-namespace unix socket for mute
+// commands from the `discord-mute` CLI and queues them for the renderer to
+// apply. Abstract sockets have no filesystem entry, so runtime-dir cleanup
+// can't delete them and they're auto-released when the process exits.
 import { IpcMainInvokeEvent } from "electron";
-import { existsSync, unlinkSync } from "fs";
 import { createServer, Server, Socket } from "net";
-import { join } from "path";
 
 type Action = "toggle" | "mute" | "unmute";
 
-const SOCKET_PATH = join(
-    process.env.XDG_RUNTIME_DIR || process.env.TMPDIR || "/tmp",
-    "discord-mute-bridge.sock"
-);
+// Leading NUL = Linux abstract namespace (appears as @discord-mute-bridge).
+const SOCKET_ADDR = "\0discord-mute-bridge";
 
 let queue: Action[] = [];
 let server: Server | null = null;
@@ -24,13 +22,6 @@ function parse(text: string): void {
 
 function start(): void {
     if (server) return;
-
-    // Clear a stale socket from a previous session.
-    try {
-        if (existsSync(SOCKET_PATH)) unlinkSync(SOCKET_PATH);
-    } catch {
-        /* ignore */
-    }
 
     server = createServer((sock: Socket) => {
         sock.setEncoding("utf-8");
@@ -54,7 +45,7 @@ function start(): void {
     });
 
     try {
-        server.listen(SOCKET_PATH);
+        server.listen(SOCKET_ADDR);
     } catch {
         server = null;
     }

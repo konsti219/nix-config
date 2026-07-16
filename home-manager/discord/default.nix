@@ -37,14 +37,11 @@
           ;;
       esac
 
-      sock="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/discord-mute-bridge.sock"
-      if [ ! -S "$sock" ]; then
-        echo "discord-mute: bridge socket not found at $sock" >&2
+      if ! printf '%s\n' "$action" | socat -u - ABSTRACT-CONNECT:discord-mute-bridge 2>/dev/null; then
+        echo "discord-mute: could not reach the bridge." >&2
         echo "  Is Discord running with the DiscordMuteBridge plugin enabled?" >&2
         exit 1
       fi
-
-      printf '%s\n' "$action" | socat -u - "UNIX-CONNECT:$sock"
     '';
   };
 in {
