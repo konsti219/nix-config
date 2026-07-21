@@ -1,5 +1,6 @@
-# Discord + Vencord with the DiscordMuteBridge userplugin and a CLI, so a
-# manually-assigned KDE shortcut can toggle voice mute without X11 keystroke access.
+# Vesktop with the DiscordMuteBridge userplugin and a CLI,
+# so a manually-assigned KDE shortcut can toggle voice mute without X11 keystroke access.
+# Vesktop for screen share audio
 {
   pkgs,
   lib,
@@ -19,8 +20,9 @@
       '';
   });
 
-  discordWithBridge = upkgs.discord.override {
-    withVencord = true;
+  # use vencord from nixpkgs isntead of bundled
+  vesktopWithBridge = upkgs.vesktop.override {
+    withSystemVencord = true;
     vencord = vencordWithBridge;
   };
 
@@ -46,7 +48,7 @@
   };
 in {
   home.packages = [
-    discordWithBridge
+    vesktopWithBridge
     discord-mute
   ];
 
@@ -55,7 +57,7 @@ in {
     name = "Discord Mute Toggle";
     genericName = "Toggle Discord voice mute";
     exec = "${lib.getExe discord-mute} toggle";
-    icon = "discord";
+    icon = "vesktop";
     terminal = false;
     type = "Application";
     noDisplay = true;
