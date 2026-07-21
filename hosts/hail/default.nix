@@ -37,5 +37,5 @@
     vr
     ({...}: {home.stateVersion = "25.11";}) # Don't change!
   ];
-  homeManagerModulesSecret = with inputs.secrets.homeManagerModules; [home];
+  homeManagerModulesSecret = with inputs.secrets.homeManagerModules; [home vr];
 }

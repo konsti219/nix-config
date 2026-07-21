@@ -22,7 +22,6 @@
   environment.systemPackages = with pkgs.unstable; [
     wayvr
     nvtopPackages.amd
-    vrcx
     slimevr
     bs-manager
   ];
