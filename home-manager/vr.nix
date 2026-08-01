@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  inputs,
   ...
 }: let
   clipboardSync = pkgs.writeShellApplication {
@@ -90,6 +91,8 @@
     '';
   };
 in {
+  imports = [inputs.spout2pw.homeModules.default];
+
   xdg = {
     configFile."wayvr" = {
       source = ./wayvr;
@@ -117,6 +120,8 @@ in {
         };
     };
   };
+
+  programs.spout2pw.enable = true;
 
   systemd.user.services.clipboard-sync = {
     Unit = {
