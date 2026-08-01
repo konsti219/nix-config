@@ -4,7 +4,36 @@
   inputs,
   host,
   ...
-}: {
+}: let
+  # Turn all ratbag-managed *mice* that have LEDs on/off.
+  # Keyboards are skipped (the G915 handles its own idle-off in firmware).
+  # Enumerates devices dynamically, so it survives alias changes and new mice.
+  ledColor = "ffffff"; # ratbagd zeros color on mode off, explicitly set it again
+  mouseLedIdle = pkgs.writeShellApplication {
+    name = "mouse-led-idle";
+    runtimeInputs = [pkgs.unstable.libratbag pkgs.gawk pkgs.coreutils];
+    text = ''
+      mode="$1" # "on" or "off"
+      ratbagctl list | cut -d: -f1 | while read -r dev; do
+        [ -n "$dev" ] || continue
+        info=$(ratbagctl "$dev" info 2>/dev/null) || continue
+        devtype=$(printf '%s\n' "$info" | awk -F': *' '/Device Type/{print $2; exit}')
+        [ "$devtype" = "Mouse" ] || continue
+        leds=$(printf '%s\n' "$info" | awk -F': *' '/Number of Leds/{print $2; exit}')
+        [ -n "$leds" ] && [ "$leds" -gt 0 ] || continue
+        i=0
+        while [ "$i" -lt "$leds" ]; do
+          if [ "$mode" = "on" ]; then
+            ratbagctl "$dev" led "$i" set mode on color ${ledColor} 2>/dev/null || true
+          else
+            ratbagctl "$dev" led "$i" set mode off 2>/dev/null || true
+          fi
+          i=$((i + 1))
+        done
+      done
+    '';
+  };
+in {
   # Enable support for Bluetooth
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = true;
@@ -126,6 +155,20 @@
   services.ratbagd = {
     enable = true;
     package = pkgs.unstable.libratbag;
+  };
+
+  # After 10 min idle, turn off mouse LEDs; turn back on when activity resumes.
+  # swayidle shares KWin's ext-idle-notify-v1 clock, so it stays in sync with
+  # Plasma's own screen-off timeout (also 10 min).
+  systemd.user.services.mouse-led-idle = {
+    description = "Turn off mouse LEDs when idle";
+    wantedBy = ["graphical-session.target"];
+    partOf = ["graphical-session.target"];
+    after = ["graphical-session.target"];
+    serviceConfig = {
+      ExecStart = ''${pkgs.swayidle}/bin/swayidle -w timeout 600 "${mouseLedIdle}/bin/mouse-led-idle off" resume "${mouseLedIdle}/bin/mouse-led-idle on"'';
+      Restart = "on-failure";
+    };
   };
   users.users.${host.mainUser} = {
     extraGroups = ["games"];
