@@ -1,6 +1,7 @@
 # Settings for personal machines like Desktops or Laptops
 {
   pkgs,
+  config,
   inputs,
   host,
   ...
@@ -63,6 +64,13 @@ in {
     package = pkgs.unstable.mesa;
     package32 = pkgs.unstable.pkgsi686Linux.mesa;
   };
+
+  # OBS virtual camera (OBS itself is installed via home-manager)
+  boot.extraModulePackages = [config.boot.kernelPackages.v4l2loopback];
+  boot.kernelModules = ["v4l2loopback"];
+  boot.extraModprobeConfig = ''
+    options v4l2loopback devices=1 video_nr=9 card_label="OBS Virtual Camera" exclusive_caps=1
+  '';
 
   # Enable CUPS to print documents.
   # services.printing.enable = true;
