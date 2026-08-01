@@ -21,10 +21,25 @@
   });
 
   # use vencord from nixpkgs isntead of bundled
-  vesktopWithBridge = upkgs.vesktop.override {
+  vesktopBase = upkgs.vesktop.override {
     withSystemVencord = true;
     vencord = vencordWithBridge;
   };
+
+  # Auto-select the screenshare audio source from the window picked in the
+  # portal; see auto-audio/autoPickAudio.ts for how the window is identified.
+  # Applied in postPatch rather than `patches` because vesktop's fetchPnpmDeps
+  # inherits `patches`, and touching it would invalidate the pinned pnpm hash.
+  vesktopWithBridge = vesktopBase.overrideAttrs (old: {
+    postPatch =
+      (old.postPatch or "")
+      + ''
+        patch -p1 < ${./auto-audio/vesktop-auto-audio.patch}
+        cp ${./auto-audio/autoPickAudio.ts} src/main/autoPickAudio.ts
+        substituteInPlace src/main/autoPickAudio.ts \
+          --replace-fail '@PW_DUMP@' '${upkgs.pipewire}/bin/pw-dump'
+      '';
+  });
 
   discord-mute = pkgs.writeShellApplication {
     name = "discord-mute";

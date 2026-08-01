@@ -223,11 +223,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1785454630,
-        "narHash": "sha256-LQy14TZp77TwbQf40gg1V3jo8FwJG0jGDkAH+zRHqg8=",
+        "lastModified": 1785571196,
+        "narHash": "sha256-KoTsyMQqnXQZq8deCEnu4QkyldkwH/bpMMhUcfMdGIw=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "1559d3daa3ecc813a650b79375ea61b6741b8746",
+        "rev": "148bab9c1c3c53136ecb44a6ea356a0ed5b39b06",
         "type": "github"
       },
       "original": {
@@ -246,11 +246,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1784581394,
-        "narHash": "sha256-dX4TRNuLj+SVSn5P9lFWpqZaJvuYa/d4NCquFfbWmzA=",
+        "lastModified": 1785625502,
+        "narHash": "sha256-ci2rp322UgUaDEh6wXqzQxY/Jetql+PFSMD1x4WA9ho=",
         "owner": "konsti219",
         "repo": "pipemeeter",
-        "rev": "e5da53425acc2947d9a3f111bb9382ad6d17afd0",
+        "rev": "ee70c7044f0ba006e9ea7c81fe9809bc1b9937c2",
         "type": "github"
       },
       "original": {

@@ -10,6 +10,15 @@
     # example = prev.example.overrideAttrs (oldAttrs: rec {
     # ...
     # });
+
+    # Patch kwin to provide more metadata for screencasts
+    kdePackages = prev.kdePackages.overrideScope (_kfinal: kprev: {
+      kwin = kprev.kwin.overrideAttrs (old: {
+        patches =
+          (old.patches or [])
+          ++ [../home-manager/discord/auto-audio/kwin-screencast-metadata.patch];
+      });
+    });
   };
 
   # When applied, the unstable nixpkgs set (declared in the flake inputs) will

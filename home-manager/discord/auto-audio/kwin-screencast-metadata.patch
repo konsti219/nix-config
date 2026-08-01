@@ -1,0 +1,195 @@
+diff --git a/src/plugins/screencast/outputscreencastsource.cpp b/src/plugins/screencast/outputscreencastsource.cpp
+index 5a44c3f..5c3f6ee 100644
+--- a/src/plugins/screencast/outputscreencastsource.cpp
++++ b/src/plugins/screencast/outputscreencastsource.cpp
+@@ -167,6 +167,18 @@ RectF OutputScreenCastSource::mapFromGlobal(const RectF &rect) const
+     return m_output->mapFromGlobal(rect);
+ }
+ 
++QMap<QByteArray, QByteArray> OutputScreenCastSource::metadata() const
++{
++    if (!m_output) {
++        return {};
++    }
++
++    return {
++        {"kwin.screencast.source-type", "output"},
++        {"kwin.output.name", m_output->name().toUtf8()},
++    };
++}
++
+ } // namespace KWin
+ 
+ #include "moc_outputscreencastsource.cpp"
+diff --git a/src/plugins/screencast/outputscreencastsource.h b/src/plugins/screencast/outputscreencastsource.h
+index 7c3142b..6941161 100644
+--- a/src/plugins/screencast/outputscreencastsource.h
++++ b/src/plugins/screencast/outputscreencastsource.h
+@@ -44,6 +44,8 @@ public:
+     QPointF mapFromGlobal(const QPointF &point) const override;
+     RectF mapFromGlobal(const RectF &rect) const override;
+ 
++    QMap<QByteArray, QByteArray> metadata() const override;
++
+ private:
+     QPointer<LogicalOutput> m_output;
+     std::optional<pid_t> m_pidToHide;
+diff --git a/src/plugins/screencast/regionscreencastsource.cpp b/src/plugins/screencast/regionscreencastsource.cpp
+index a9fefd9..e85d33c 100644
+--- a/src/plugins/screencast/regionscreencastsource.cpp
++++ b/src/plugins/screencast/regionscreencastsource.cpp
+@@ -185,6 +185,20 @@ RectF RegionScreenCastSource::mapFromGlobal(const RectF &rect) const
+     return rect.translated(-m_region.topLeft());
+ }
+ 
++QMap<QByteArray, QByteArray> RegionScreenCastSource::metadata() const
++{
++    return {
++        {"kwin.screencast.source-type", "region"},
++        {"kwin.region.geometry",
++         QStringLiteral("%1,%2 %3x%4")
++             .arg(m_region.x())
++             .arg(m_region.y())
++             .arg(m_region.width())
++             .arg(m_region.height())
++             .toUtf8()},
++    };
++}
++
+ } // namespace KWin
+ 
+ #include "moc_regionscreencastsource.cpp"
+diff --git a/src/plugins/screencast/regionscreencastsource.h b/src/plugins/screencast/regionscreencastsource.h
+index b9fd361..3d300c8 100644
+--- a/src/plugins/screencast/regionscreencastsource.h
++++ b/src/plugins/screencast/regionscreencastsource.h
+@@ -44,6 +44,8 @@ public:
+     QPointF mapFromGlobal(const QPointF &point) const override;
+     RectF mapFromGlobal(const RectF &rect) const override;
+ 
++    QMap<QByteArray, QByteArray> metadata() const override;
++
+ private:
+     const Rect m_region;
+     const qreal m_scale;
+diff --git a/src/plugins/screencast/screencastsource.cpp b/src/plugins/screencast/screencastsource.cpp
+index df6bcb1..64af528 100644
+--- a/src/plugins/screencast/screencastsource.cpp
++++ b/src/plugins/screencast/screencastsource.cpp
+@@ -13,6 +13,11 @@ ScreenCastSource::ScreenCastSource()
+ {
+ }
+ 
++QMap<QByteArray, QByteArray> ScreenCastSource::metadata() const
++{
++    return {};
++}
++
+ } // namespace KWin
+ 
+ #include "moc_screencastsource.cpp"
+diff --git a/src/plugins/screencast/screencastsource.h b/src/plugins/screencast/screencastsource.h
+index c15f812..b579105 100644
+--- a/src/plugins/screencast/screencastsource.h
++++ b/src/plugins/screencast/screencastsource.h
+@@ -6,6 +6,7 @@
+ 
+ #pragma once
+ 
++#include <QMap>
+ #include <QObject>
+ 
+ class QImage;
+@@ -44,6 +45,13 @@ public:
+     virtual QPointF mapFromGlobal(const QPointF &point) const = 0;
+     virtual RectF mapFromGlobal(const RectF &rect) const = 0;
+ 
++    /**
++     * PipeWire properties describing what this source captures, so that clients
++     * can identify a stream without having to guess from its name. Empty values
++     * are skipped by the caller.
++     */
++    virtual QMap<QByteArray, QByteArray> metadata() const;
++
+ Q_SIGNALS:
+     void frame();
+     void closed();
+diff --git a/src/plugins/screencast/screencaststream.cpp b/src/plugins/screencast/screencaststream.cpp
+index cb51ca2..f79aa81 100644
+--- a/src/plugins/screencast/screencaststream.cpp
++++ b/src/plugins/screencast/screencaststream.cpp
+@@ -411,7 +411,22 @@ uint64_t ScreenCastStream::objectSerial() const
+ bool ScreenCastStream::createStream()
+ {
+     const QByteArray objname = "kwin-screencast-" + objectName().toUtf8();
+-    m_pwStream = pw_stream_new(m_pwCore->pwCore, objname, nullptr);
++
++    // Describe what is being captured. Deliberately additive: no standard key is
++    // set here, so the node keeps the media.class and name it has always had.
++    pw_properties *props = nullptr;
++    const QMap<QByteArray, QByteArray> metadata = m_source->metadata();
++    if (!metadata.isEmpty()) {
++        props = pw_properties_new(nullptr, nullptr);
++        for (auto it = metadata.cbegin(); it != metadata.cend(); ++it) {
++            if (!it.value().isEmpty()) {
++                pw_properties_set(props, it.key().constData(), it.value().constData());
++            }
++        }
++    }
++
++    // Takes ownership of props, including when it is null.
++    m_pwStream = pw_stream_new(m_pwCore->pwCore, objname, props);
+ 
+     const auto supported = Compositor::self()->backend()->supportedFormats();
+     auto itModifiers = supported.constFind(m_source->drmFormat());
+diff --git a/src/plugins/screencast/windowscreencastsource.cpp b/src/plugins/screencast/windowscreencastsource.cpp
+index f1ec191..7124436 100644
+--- a/src/plugins/screencast/windowscreencastsource.cpp
++++ b/src/plugins/screencast/windowscreencastsource.cpp
+@@ -208,6 +208,33 @@ RectF WindowScreenCastSource::boundingRect() const
+     return boundingRect;
+ }
+ 
++QMap<QByteArray, QByteArray> WindowScreenCastSource::metadata() const
++{
++    if (m_windows.isEmpty()) {
++        return {};
++    }
++
++    // The first window is the one that was requested; the rest are transients
++    // pulled in alongside it, and they belong to the same application anyway.
++    const Window *window = m_windows.constFirst();
++
++    QMap<QByteArray, QByteArray> data{
++        {"kwin.screencast.source-type", "window"},
++        {"kwin.window.uuid", window->internalId().toString(QUuid::WithoutBraces).toUtf8()},
++        {"kwin.window.resource-class", window->resourceClass().toUtf8()},
++        {"kwin.window.resource-name", window->resourceName().toUtf8()},
++        {"kwin.window.desktop-file", window->desktopFileName().toUtf8()},
++        {"kwin.window.caption", window->caption().toUtf8()},
++    };
++
++    // X11 windows report -1 when _NET_WM_PID is unset.
++    if (const pid_t pid = window->pid(); pid > 0) {
++        data.insert("kwin.window.pid", QByteArray::number(pid));
++    }
++
++    return data;
++}
++
+ } // namespace KWin
+ 
+ #include "moc_windowscreencastsource.cpp"
+diff --git a/src/plugins/screencast/windowscreencastsource.h b/src/plugins/screencast/windowscreencastsource.h
+index 80edd86..c16f612 100644
+--- a/src/plugins/screencast/windowscreencastsource.h
++++ b/src/plugins/screencast/windowscreencastsource.h
+@@ -41,6 +41,8 @@ public:
+     QPointF mapFromGlobal(const QPointF &point) const override;
+     RectF mapFromGlobal(const RectF &rect) const override;
+ 
++    QMap<QByteArray, QByteArray> metadata() const override;
++
+ private:
+     void add(Window *window);
+     void watch(Window *window);

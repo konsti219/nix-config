@@ -1,0 +1,159 @@
+diff --git a/src/main/screenShare.ts b/src/main/screenShare.ts
+index a96b1ce..99830c4 100644
+--- a/src/main/screenShare.ts
++++ b/src/main/screenShare.ts
+@@ -8,6 +8,7 @@ import { desktopCapturer, session, Streams } from "electron";
+ import type { StreamPick } from "renderer/components/ScreenSharePicker";
+ import { IpcCommands, IpcEvents } from "shared/IpcEvents";
+ 
++import { watchScreencast } from "./autoPickAudio";
+ import { sendRendererCommand } from "./ipcCommands";
+ import { handle } from "./utils/ipcWrappers";
+ 
+@@ -29,6 +30,8 @@ export function registerScreenShareHandler() {
+     session.defaultSession.setDisplayMediaRequestHandler(async (request, callback) => {
+         // request full resolution on wayland right away because we always only end up with one result anyway
+         const width = isWayland ? 1920 : 176;
++        const watcher = isWayland ? watchScreencast() : null;
++
+         const sources = await desktopCapturer
+             .getSources({
+                 types: ["window", "screen"],
+@@ -39,6 +42,8 @@ export function registerScreenShareHandler() {
+             })
+             .catch(err => console.error("Error during screenshare picker", err));
+ 
++        const autoAudio = watcher ? await watcher.stop() : null;
++
+         if (!sources) return callback({});
+ 
+         const data = sources.map(({ id, name, thumbnail }) => ({
+@@ -52,7 +57,8 @@ export function registerScreenShareHandler() {
+             if (video) {
+                 const stream = await sendRendererCommand<StreamPick>(IpcCommands.SCREEN_SHARE_PICKER, {
+                     screens: [video],
+-                    skipPicker: true
++                    skipPicker: true,
++                    autoAudio
+                 }).catch(() => null);
+ 
+                 if (stream === null) return callback({});
+diff --git a/src/renderer/components/ScreenSharePicker.tsx b/src/renderer/components/ScreenSharePicker.tsx
+index a5fb8a0..5eab4b5 100644
+--- a/src/renderer/components/ScreenSharePicker.tsx
++++ b/src/renderer/components/ScreenSharePicker.tsx
+@@ -134,7 +134,7 @@ if (isLinux) {
+     });
+ }
+ 
+-export function openScreenSharePicker(screens: Source[], skipPicker: boolean) {
++export function openScreenSharePicker(screens: Source[], skipPicker: boolean, autoAudio?: Node[] | null) {
+     let didSubmit = false;
+     return new Promise<StreamPick>((resolve, reject) => {
+         const key = openModal(
+@@ -162,6 +162,7 @@ export function openScreenSharePicker(screens: Source[], skipPicker: boolean) {
+                         if (!didSubmit) reject("Aborted");
+                     }}
+                     skipPicker={skipPicker}
++                    autoAudio={autoAudio}
+                 />
+             ),
+             {
+@@ -354,6 +355,12 @@ function StreamSettingsUi({
+     const Settings = useSettings();
+     const qualitySettings = State.store.screenshareQuality!;
+ 
++    // True while the audio source is still the one we pre-selected rather than
++    // one the user clicked. Upstream's first click replaces the "None" default
++    // and only later clicks add; a pre-selected array would skip that branch,
++    // making the very first click append and leaving two apps selected.
++    const [autoPicked, setAutoPicked] = useState(Array.isArray(settings.includeSources));
++
+     const [thumb] = useAwaiter(
+         () => (skipPicker ? Promise.resolve(source.url) : VesktopNative.capturer.getLargeThumbnail(source.id)),
+         {
+@@ -442,7 +449,11 @@ function StreamSettingsUi({
+                         excludeSources={settings.excludeSources}
+                         deviceSelect={Settings.audio?.deviceSelect}
+                         granularSelect={Settings.audio?.granularSelect}
+-                        setIncludeSources={sources => setSettings(s => ({ ...s, includeSources: sources }))}
++                        autoPicked={autoPicked}
++                        setIncludeSources={sources => {
++                            setAutoPicked(false);
++                            setSettings(s => ({ ...s, includeSources: sources }));
++                        }}
+                         setExcludeSources={sources => setSettings(s => ({ ...s, excludeSources: sources }))}
+                     />
+                 )}
+@@ -571,7 +582,8 @@ function AudioSourcePickerLinux({
+     granularSelect,
+     openSettings,
+     setIncludeSources,
+-    setExcludeSources
++    setExcludeSources,
++    autoPicked
+ }: {
+     includeSources?: AudioSources;
+     excludeSources?: AudioSources;
+@@ -580,6 +592,7 @@ function AudioSourcePickerLinux({
+     openSettings: () => void;
+     setIncludeSources: (s: AudioSources) => void;
+     setExcludeSources: (s: AudioSources) => void;
++    autoPicked?: boolean;
+ }) {
+     const [audioSourcesSignal, refreshAudioSources] = useForceUpdater(true);
+     const [sources, _, loading] = useAwaiter(() => VesktopNative.virtmic.list(), {
+@@ -654,8 +667,8 @@ function AudioSourcePickerLinux({
+                                 default: name === "None"
+                             }))}
+                             isSelected={isItemSelected(includeSources)}
+-                            select={updateItems(setIncludeSources, includeSources)}
+-                            serialize={String}
++                            select={updateItems(setIncludeSources, autoPicked ? "None" : includeSources)}
++                            serialize={value => JSON.stringify(value)}
+                             popoutPosition="top"
+                             closeOnSelect={false}
+                         />
+@@ -675,7 +688,7 @@ function AudioSourcePickerLinux({
+                                     }))}
+                                 isSelected={isItemSelected(excludeSources)}
+                                 select={updateItems(setExcludeSources, excludeSources)}
+-                                serialize={String}
++                                serialize={value => JSON.stringify(value)}
+                                 popoutPosition="top"
+                                 closeOnSelect={false}
+                             />
+@@ -702,19 +715,21 @@ function ModalComponent({
+     modalProps,
+     submit,
+     close,
+-    skipPicker
++    skipPicker,
++    autoAudio
+ }: {
+     screens: Source[];
+     modalProps: any;
+     submit: (data: StreamPick) => void;
+     close: () => void;
+     skipPicker: boolean;
++    autoAudio?: Node[] | null;
+ }) {
+     const [selected, setSelected] = useState<string | undefined>(skipPicker ? screens[0].id : void 0);
+     const [settings, setSettings] = useState<StreamSettings>({
+         contentHint: "motion",
+         audio: true,
+-        includeSources: "None"
++        includeSources: autoAudio ?? "None"
+     });
+     const qualitySettings = (useVesktopState().screenshareQuality ??= {
+         resolution: "720",
+diff --git a/src/renderer/ipcCommands.ts b/src/renderer/ipcCommands.ts
+index 4d73f02..3479660 100644
+--- a/src/renderer/ipcCommands.ts
++++ b/src/renderer/ipcCommands.ts
+@@ -51,4 +51,4 @@ onIpcCommand(IpcCommands.NAVIGATE_SETTINGS, () => {
+ 
+ onIpcCommand(IpcCommands.GET_LANGUAGES, () => navigator.languages);
+ 
+-onIpcCommand(IpcCommands.SCREEN_SHARE_PICKER, data => openScreenSharePicker(data.screens, data.skipPicker));
++onIpcCommand(IpcCommands.SCREEN_SHARE_PICKER, data => openScreenSharePicker(data.screens, data.skipPicker, data.autoAudio));
