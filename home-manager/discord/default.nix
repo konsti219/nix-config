@@ -1,5 +1,5 @@
-# Vesktop with the DiscordMuteBridge userplugin and a CLI,
-# so a manually-assigned KDE shortcut can toggle voice mute without X11 keystroke access.
+# Vesktop with the DiscordMuteBridge userplugin, which registers voice-mute
+# shortcuts with xdg-desktop-portal's GlobalShortcuts API
 # Vesktop for screen share audio
 {
   pkgs,
@@ -8,8 +8,19 @@
 }: let
   upkgs = pkgs.unstable;
 
-  # Inject in preBuild, not postPatch: pnpmDeps inherits postPatch, and the
-  # plugin adds no deps, so this keeps the pinned pnpm hash valid.
+  # Vendor the node module directly, is easier to maintain
+  vendoredNodeModules = {
+    dbus-native = pkgs.fetchzip {
+      name = "dbus-native-0.15.1";
+      url = "https://registry.npmjs.org/dbus-native/-/dbus-native-0.15.1.tgz";
+      hash = "sha256-bFW5T3WjAqAIgC8ccFsfeuYbHk/uTKGMMTYfsb5xsjM=";
+    };
+    xml2js = ./mute-bridge/xml2js-stub;
+  };
+
+  # Inject in preBuild, not postPatch: pnpmDeps inherits postPatch, and preBuild
+  # runs after `pnpm install`, so neither the plugin nor the vendored modules
+  # are visible to the pinned pnpm hash.
   vencordWithBridge = upkgs.vencord.overrideAttrs (old: {
     preBuild =
       (old.preBuild or "")
@@ -17,7 +28,13 @@
         mkdir -p src/userplugins/discordMuteBridge
         cp ${./mute-bridge/index.ts} src/userplugins/discordMuteBridge/index.ts
         cp ${./mute-bridge/native.ts} src/userplugins/discordMuteBridge/native.ts
-      '';
+        cp ${./mute-bridge/portal.ts} src/userplugins/discordMuteBridge/portal.ts
+      ''
+      + lib.concatStringsSep "\n" (lib.mapAttrsToList (name: src: ''
+          mkdir -p node_modules/${name}
+          cp -r --no-preserve=mode,ownership ${src}/. node_modules/${name}/
+        '')
+        vendoredNodeModules);
   });
 
   # use vencord from nixpkgs isntead of bundled
@@ -40,42 +57,8 @@
           --replace-fail '@PW_DUMP@' '${upkgs.pipewire}/bin/pw-dump'
       '';
   });
-
-  discord-mute = pkgs.writeShellApplication {
-    name = "discord-mute";
-    runtimeInputs = [pkgs.socat];
-    text = ''
-      action="''${1:-toggle}"
-      case "$action" in
-        toggle | mute | unmute) ;;
-        *)
-          echo "usage: discord-mute [toggle|mute|unmute]" >&2
-          exit 2
-          ;;
-      esac
-
-      if ! printf '%s\n' "$action" | socat -u - ABSTRACT-CONNECT:discord-mute-bridge 2>/dev/null; then
-        echo "discord-mute: could not reach the bridge." >&2
-        echo "  Is Discord running with the DiscordMuteBridge plugin enabled?" >&2
-        exit 1
-      fi
-    '';
-  };
 in {
   home.packages = [
     vesktopWithBridge
-    discord-mute
   ];
-
-  # Launcher to bind a shortcut to in System Settings (unassigned by default).
-  xdg.desktopEntries.discord-mute-toggle = {
-    name = "Discord Mute Toggle";
-    genericName = "Toggle Discord voice mute";
-    exec = "${lib.getExe discord-mute} toggle";
-    icon = "vesktop";
-    terminal = false;
-    type = "Application";
-    noDisplay = true;
-    startupNotify = false;
-  };
 }
