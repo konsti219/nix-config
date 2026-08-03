@@ -1,8 +1,14 @@
-// Main-process half: registers voice-mute shortcuts with the desktop portal and
-// hands each activation to the renderer.
-import { IpcMainInvokeEvent } from "electron";
+// Main-process half: registers voice-mute shortcuts with the desktop portal,
+// hands each activation to the renderer, and reflects the muted state in the
+// window icon.
+import { BrowserWindow, IpcMainInvokeEvent } from "electron";
 
 import { connect, ShortcutsClient } from "./portal";
+
+// Baked in at build time; the muted one is the same artwork with a red
+// mic-off badge composited into the bottom-right corner.
+const ICON_NORMAL = "@ICON_NORMAL@";
+const ICON_MUTED = "@ICON_MUTED@";
 
 type Action = "toggle" | "mute" | "unmute";
 
@@ -79,6 +85,34 @@ function start(): void {
 }
 
 start();
+
+let iconApplied: string | null = null;
+
+/**
+ * Swap the window icon to reflect whether the mic is muted.
+ *
+ * Goes out as xdg-toplevel-icon-v1, which KWin honours over the desktop-file
+ * icon. Plasma's libtaskmanager normally discards it in favour of the launcher
+ * icon, so the panel only picks this up with the accompanying
+ * plasma-taskmanager-toplevel-icon patch applied.
+ *
+ * The window is resolved from the calling renderer rather than looked up
+ * globally, so the icon lands on the window that actually reported.
+ */
+export function setMuted(event: IpcMainInvokeEvent, muted: boolean): void {
+    const icon = muted ? ICON_MUTED : ICON_NORMAL;
+    if (icon === iconApplied) return;
+
+    const win = BrowserWindow.fromWebContents(event.sender);
+    if (!win || win.isDestroyed()) return;
+
+    try {
+        win.setIcon(icon);
+        iconApplied = icon;
+    } catch (e) {
+        log(`could not update the window icon: ${e}`);
+    }
+}
 
 // Long poll: resolves as soon as a shortcut fires, so there is no polling
 // interval to trade off against latency. Only one waiter is meaningful (the

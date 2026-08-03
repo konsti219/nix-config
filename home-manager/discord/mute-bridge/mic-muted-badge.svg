@@ -1,0 +1,19 @@
+<!-- Overlay badge composited onto the Vesktop icon while self-muted in a call.
+     Sized for the bottom-right corner at roughly 45% of the icon, which stays
+     legible once KWin scales the toplevel icon down to taskbar size. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">
+  <!-- Dark ring keeps the badge readable against light wallpapers/panels. -->
+  <circle cx="50" cy="50" r="46" fill="#f23f42" stroke="#17181b" stroke-width="6"/>
+
+  <!-- Microphone: capsule body, cradle, stem. Deliberately chunky, because at
+       taskbar size the badge is only ~20px across and thin strokes vanish. -->
+  <rect x="40" y="24" width="20" height="28" rx="10" fill="#ffffff"/>
+  <path d="M32 45 a18 18 0 0 0 36 0" fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+  <line x1="50" y1="63" x2="50" y2="76" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Slash: a red underlay first, so the white bar reads as a gap cut through
+       the microphone rather than merging with it. Kept narrow enough that the
+       mic silhouette survives on either side of it. -->
+  <line x1="30" y1="28" x2="70" y2="72" stroke="#f23f42" stroke-width="13" stroke-linecap="round"/>
+  <line x1="30" y1="28" x2="70" y2="72" stroke="#ffffff" stroke-width="7" stroke-linecap="round"/>
+</svg>

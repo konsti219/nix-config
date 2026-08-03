@@ -1,0 +1,18 @@
+--- a/libtaskmanager/waylandtasksmodel.cpp
++++ b/libtaskmanager/waylandtasksmodel.cpp
+@@ -827,6 +827,15 @@
+ 
+ QIcon WaylandTasksModel::Private::icon(PlasmaWindow *window)
+ {
++    // Prefer an icon the client set explicitly via xdg-toplevel-icon-v1.
++    // KWin's own fallbacks (desktop-file icon, or the generic "wayland" icon)
++    // are themed and therefore carry a name; a client-supplied pixmap does not,
++    // which is what tells the two apart here. Without this the launcher icon
++    // always wins and a per-window icon can never be shown.
++    if (!window->icon.isNull() && window->icon.name().isEmpty()) {
++        return window->icon;
++    }
++
+     const AppData &app = appData(window);
+ 
+     if (!app.icon.isNull()) {
