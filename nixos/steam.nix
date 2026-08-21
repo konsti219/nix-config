@@ -32,6 +32,22 @@
     protonplus
   ];
 
+  systemd.user.slices.steam = {
+    sliceConfig.MemoryMax = "64G";
+  };
+  systemd.user.units."app-steam@.service" = {
+    overrideStrategy = "asDropin";
+    text = ''
+      [Service]
+      Slice=steam.slice
+      OOMPolicy=continue
+    '';
+  };
+
   hardware.steam-hardware.enable = true;
   boot.kernelModules = ["ntsync"];
+
+  # The 32bit steam client does unaligned atomics, which trap on AMD bus lock
+  # detection and spam the journal with "took a bus_lock trap" warnings.
+  boot.kernelParams = ["split_lock_detect=off"];
 }

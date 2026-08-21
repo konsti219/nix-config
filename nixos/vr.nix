@@ -1,5 +1,6 @@
 {
   pkgs,
+  config,
   lib,
   inputs,
   ...
@@ -10,6 +11,7 @@
     autoStart = true;
     openFirewall = true;
     steam.importOXRRuntimes = true;
+    steam.package = config.programs.steam.package;
     config.enable = true;
     config.json = {
       application = [pkgs.unstable.wayvr];
