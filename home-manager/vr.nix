@@ -9,6 +9,7 @@
     name = "clipboard-sync";
     runtimeInputs = with pkgs; [
       coreutils
+      gnugrep
       wl-clipboard
       xclip
     ];
@@ -24,7 +25,7 @@
       # Pick which Wayland offer to mirror. Prefer real image data so that
       # screenshots reach XWayland apps as image/png instead of being
       # flattened to text/plain (which made images paste as garbled text).
-      wl_image_type() {
+      wl_rich_type() {
         local types t
         types="$(wl-paste --list-types 2>/dev/null || true)"
         while IFS= read -r t; do
@@ -33,15 +34,28 @@
         while IFS= read -r t; do
           case "$t" in image/*) echo "$t"; return ;; esac
         done <<<"$types"
+        while IFS= read -r t; do
+          [ "$t" = text/uri-list ] && { echo text/uri-list; return; }
+        done <<<"$types"
         echo ""
       }
 
-      # Does the X11 clipboard advertise an image target?
-      x11_image_type() {
-        local t
+      # A file-manager copy/cut (text/uri-list, plus KDE's cut marker) must
+      # never be overwritten by the X11 -> Wayland direction
+      wl_has_uri_list() {
+        wl-paste --list-types 2>/dev/null | grep -qx text/uri-list
+      }
+
+      # Does the X11 clipboard advertise an image or file-list target?
+      x11_rich_type() {
+        local targets t
+        targets="$(xclip -selection clipboard -o -t TARGETS 2>/dev/null || true)"
         while IFS= read -r t; do
           [ "$t" = image/png ] && { echo image/png; return; }
-        done <<<"$(xclip -selection clipboard -o -t TARGETS 2>/dev/null || true)"
+        done <<<"$targets"
+        while IFS= read -r t; do
+          [ "$t" = text/uri-list ] && { echo text/uri-list; return; }
+        done <<<"$targets"
         echo ""
       }
 
@@ -56,7 +70,7 @@
 
       case "''${1-}" in
         --to-x11)
-          ty="$(wl_image_type)"
+          ty="$(wl_rich_type)"
           if [ -n "$ty" ]; then
             wl-paste --type "$ty" >"$tmp" 2>/dev/null || true
             commit xclip -selection clipboard -t "$ty" -in
@@ -67,7 +81,10 @@
           exit 0
           ;;
         --to-wayland)
-          ty="$(x11_image_type)"
+          if wl_has_uri_list; then
+            exit 0
+          fi
+          ty="$(x11_rich_type)"
           if [ -n "$ty" ]; then
             xclip -selection clipboard -o -t "$ty" >"$tmp" 2>/dev/null || true
             commit wl-copy --type "$ty"
