@@ -126,11 +126,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785119570,
-        "narHash": "sha256-Rgs2xKnGLFWQscxUaXX07oyZeuMDOHEbqDOsgliLFGM=",
+        "lastModified": 1787146702,
+        "narHash": "sha256-YbRcLdU/yK4gWsQg7V8WTKZHfXL33g8+wSFUX3wyevs=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "d4fd24667c8cbef124bb70a20380cab75ec8474d",
+        "rev": "173b7e8d40fdc8c296a9c99854314f17a3a1704c",
         "type": "github"
       },
       "original": {
@@ -147,11 +147,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785531816,
-        "narHash": "sha256-vkMnV0JIyw+g/NmcfoajlGaAO+9a0ezia+FZohQJrik=",
+        "lastModified": 1787176219,
+        "narHash": "sha256-djoRr6jBpe35q/0JwAvXpFXg1Ktf+X54NU2RLR7wnHw=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "bf9ce9fec78f95f374e8dd3b503863a3ec128ebe",
+        "rev": "c53d643b3737e2fcd04e6cb3b3580ef50b2087a0",
         "type": "github"
       },
       "original": {
@@ -191,11 +191,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785232496,
-        "narHash": "sha256-65EQYIRRpTdpH8lUiB6Mvo5uBkG60aBIzAJuALfx+O0=",
+        "lastModified": 1787144466,
+        "narHash": "sha256-HHfv2/HkNSKbbSyU9iD/g8lbP6r4tl33sSw1W4rXCk0=",
         "owner": "NixOS",
         "repo": "nixos-hardware",
-        "rev": "2e790b0a6be8ec2b76174ac0931b8ff11919ec98",
+        "rev": "0471accf8d0a8210b31d947497d179ecc99e0021",
         "type": "github"
       },
       "original": {
@@ -207,11 +207,11 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1785599192,
-        "narHash": "sha256-dg4RTtDxnXY13UkJNdhmgTUTl0n/IJBlCigfO7nutZw=",
+        "lastModified": 1787204541,
+        "narHash": "sha256-OURZPknrTjQrlNyxPdqzyqmU/81Wes1CUP/Ft1Rv/YI=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "6d65bfc1bcef2ef39a239d38e577e92a89fb0f07",
+        "rev": "5880666fd9eb563038431edb35c2d0aa595884e6",
         "type": "github"
       },
       "original": {
@@ -223,11 +223,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1785692966,
-        "narHash": "sha256-vUfIeBEfpbAfZ5zjgIkYk7eHBeVfCYVjLbWnMkseYnk=",
+        "lastModified": 1787135253,
+        "narHash": "sha256-RD2kNWCG+Bjo6h+JVjWVNntZs2GtRoeY2xHjts/FNkA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "643809054d65fdd466a63e3155b8c498cb483c04",
+        "rev": "ffb3c9b700e759be2ef13237c9d8f953b32a1e46",
         "type": "github"
       },
       "original": {
@@ -246,11 +246,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785625502,
-        "narHash": "sha256-ci2rp322UgUaDEh6wXqzQxY/Jetql+PFSMD1x4WA9ho=",
+        "lastModified": 1786731562,
+        "narHash": "sha256-Qt4U43hfU88XCUly4JkDVJD6mmv/3cYtJQll6QJw70Y=",
         "owner": "konsti219",
         "repo": "pipemeeter",
-        "rev": "ee70c7044f0ba006e9ea7c81fe9809bc1b9937c2",
+        "rev": "7cd6bcd66773b1dbbffe86f98773d561866a20fa",
         "type": "github"
       },
       "original": {
@@ -348,11 +348,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1785596640,
-        "narHash": "sha256-9yBm/JxxDxYuu7Gx27cr53wzMqPnUdlOYj/WbJuqnMc=",
+        "lastModified": 1787364635,
+        "narHash": "sha256-Wu2NuYCVFBXlAPGNf85oE117BG4hvrsiBSxpwUcm/Kk=",
         "ref": "main",
-        "rev": "6385b45ee1b647b7986eb55df4b0939871003de7",
-        "revCount": 38,
+        "rev": "8e2404f79fe33f55ca3c2315cf19cf4889b5e723",
+        "revCount": 40,
         "type": "git",
         "url": "ssh://github.com_konsti219/konsti219/nix-config-secrets.git"
       },
@@ -422,11 +422,11 @@
         "rust-overlay": "rust-overlay_2"
       },
       "locked": {
-        "lastModified": 1785754998,
-        "narHash": "sha256-ETaHIJ7qrmOwRwZ2uzZkU3+LjPTKHeIN7+mYOSttoLw=",
+        "lastModified": 1786665434,
+        "narHash": "sha256-7YtZyGKTScEZVfJqi5D1N/vToarxyMMovqMlMzV1gKo=",
         "owner": "konsti219",
         "repo": "wayvr",
-        "rev": "b7074d2cd63659f1fe984d2fce89e1d7f9d1eee1",
+        "rev": "4efeb7f65cd84f049070b9ed09af304f69d941f6",
         "type": "github"
       },
       "original": {
