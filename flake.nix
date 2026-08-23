@@ -49,10 +49,6 @@
     # Private NixOS/Home Manager modules that are excluded in *-generic hosts
     secrets = {
       url = "git+ssh://github.com_konsti219/konsti219/nix-config-secrets.git?ref=main";
-      inputs = {
-        nixpkgs-stable.follows = "nixpkgs-stable";
-        nixpkgs-unstable.follows = "nixpkgs-unstable";
-      };
     };
   };
 

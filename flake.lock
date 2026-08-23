@@ -339,20 +339,12 @@
       }
     },
     "secrets": {
-      "inputs": {
-        "nixpkgs-stable": [
-          "nixpkgs-stable"
-        ],
-        "nixpkgs-unstable": [
-          "nixpkgs-unstable"
-        ]
-      },
       "locked": {
-        "lastModified": 1787364635,
-        "narHash": "sha256-Wu2NuYCVFBXlAPGNf85oE117BG4hvrsiBSxpwUcm/Kk=",
+        "lastModified": 1787507150,
+        "narHash": "sha256-TKuxtJiJwjP2GJeZIkW19MCLkYMGrfOjADPKAXitz9I=",
         "ref": "main",
-        "rev": "8e2404f79fe33f55ca3c2315cf19cf4889b5e723",
-        "revCount": 40,
+        "rev": "775a9129864e3b4eabecbb194c70e058ed9b39ba",
+        "revCount": 41,
         "type": "git",
         "url": "ssh://github.com_konsti219/konsti219/nix-config-secrets.git"
       },
