@@ -13,8 +13,6 @@
             unset TZ
             export PRESSURE_VESSEL_IMPORT_OPENXR_1_RUNTIMES=1
             export PRESSURE_VESSEL_IMPORT_OPENXR_1_LAYERS=1
-            export GBM_BACKENDS_PATH="$(realpath /run/opengl-driver/lib/gbm)"
-            export PRESSURE_VESSEL_FILESYSTEMS_RO="/nix/store''${PRESSURE_VESSEL_FILESYSTEMS_RO:+:$PRESSURE_VESSEL_FILESYSTEMS_RO}"
           '';
         };
       };
@@ -29,18 +27,6 @@
         gamescope-wsi # gamescope hdr support
         protonplus
       ];
-
-      systemd.user.slices.steam = {
-        sliceConfig.MemoryMax = "64G";
-      };
-      systemd.user.units."app-steam@.service" = {
-        overrideStrategy = "asDropin";
-        text = ''
-          [Service]
-          Slice=steam.slice
-          OOMPolicy=continue
-        '';
-      };
 
       hardware.steam-hardware.enable = true;
       boot.kernelModules = ["ntsync"];
