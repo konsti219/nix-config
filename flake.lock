@@ -61,6 +61,26 @@
         "type": "github"
       }
     },
+    "flake-parts": {
+      "inputs": {
+        "nixpkgs-lib": [
+          "nixpkgs-stable"
+        ]
+      },
+      "locked": {
+        "lastModified": 1785627969,
+        "narHash": "sha256-4dtXQk/NMePegK/nWp5NSeuZKLATItOq61lpEvmXqGw=",
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "rev": "427bf4bd9435fdf21321c8cc628c24efc14c0f7a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "hercules-ci",
+        "repo": "flake-parts",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -157,6 +177,21 @@
       "original": {
         "owner": "nix-community",
         "repo": "home-manager",
+        "type": "github"
+      }
+    },
+    "import-tree": {
+      "locked": {
+        "lastModified": 1784254960,
+        "narHash": "sha256-iI88R3wHz8wTKQb5orvpc51L/Xr64AJyxid/0MKa/b8=",
+        "owner": "vic",
+        "repo": "import-tree",
+        "rev": "4ebb10ae17d5f1ad366e7aef5b92cb8eecf24f69",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vic",
+        "repo": "import-tree",
         "type": "github"
       }
     },
@@ -284,15 +319,15 @@
     },
     "root": {
       "inputs": {
+        "flake-parts": "flake-parts",
         "home-manager": "home-manager",
         "home-manager-unstable": "home-manager-unstable",
+        "import-tree": "import-tree",
         "lanzaboote": "lanzaboote",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs-stable": "nixpkgs-stable",
         "nixpkgs-unstable": "nixpkgs-unstable",
         "pipemeeter": "pipemeeter",
-        "secrets": "secrets",
-        "spout2pw": "spout2pw",
         "wayvr": "wayvr"
       }
     },
@@ -335,42 +370,6 @@
       "original": {
         "owner": "oxalica",
         "repo": "rust-overlay",
-        "type": "github"
-      }
-    },
-    "secrets": {
-      "locked": {
-        "lastModified": 1787507150,
-        "narHash": "sha256-TKuxtJiJwjP2GJeZIkW19MCLkYMGrfOjADPKAXitz9I=",
-        "ref": "main",
-        "rev": "775a9129864e3b4eabecbb194c70e058ed9b39ba",
-        "revCount": 41,
-        "type": "git",
-        "url": "ssh://github.com_konsti219/konsti219/nix-config-secrets.git"
-      },
-      "original": {
-        "ref": "main",
-        "type": "git",
-        "url": "ssh://github.com_konsti219/konsti219/nix-config-secrets.git"
-      }
-    },
-    "spout2pw": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs-unstable"
-        ]
-      },
-      "locked": {
-        "lastModified": 1785599020,
-        "narHash": "sha256-wTx+VdpjTwyFqkmbnRCE9n0Ejhg4ItAoC2FCz0+LEaw=",
-        "owner": "konsti219",
-        "repo": "spout2pw",
-        "rev": "8fd73e614b17cd34c77a64bce1d63559ee84cc04",
-        "type": "github"
-      },
-      "original": {
-        "owner": "konsti219",
-        "repo": "spout2pw",
         "type": "github"
       }
     },
