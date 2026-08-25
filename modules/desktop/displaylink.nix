@@ -8,10 +8,10 @@
     environment.systemPackages = with pkgs; [
       displaylink
     ];
-    boot = {
-      extraModulePackages = [config.boot.kernelPackages.evdi];
-      initrd.kernelModules = ["evdi"];
-    };
+    # boot = {
+    #   extraModulePackages = [config.boot.kernelPackages.evdi];
+    #   initrd.kernelModules = ["evdi"];
+    # };
     systemd.services.displaylink-server = {
       enable = true;
       requires = ["systemd-udevd.service"];
