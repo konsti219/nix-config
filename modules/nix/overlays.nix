@@ -1,5 +1,12 @@
 # This file defines overlays
-{inputs, ...}: {
+{inputs, ...}: let
+  keepLocal = drv: drv.overrideAttrs (_: {preferLocalBuild = true;});
+  localStdenv = pkgs:
+    pkgs.stdenv
+    // {
+      mkDerivation = args: pkgs.stdenv.mkDerivation (args // {preferLocalBuild = true;});
+    };
+in {
   flake.overlays = {
     # This one brings our custom packages from the 'pkgs' directory
     additions = final: _prev: import ../../pkgs final;
@@ -12,6 +19,8 @@
       # ...
       # });
 
+      displaylink = keepLocal prev.displaylink;
+
       # Patch kwin to provide more metadata for screencasts
       kdePackages = prev.kdePackages.overrideScope (_kfinal: kprev: {
         kwin = kprev.kwin.overrideAttrs (old: {
@@ -22,10 +31,6 @@
 
         # Let a window icon set via xdg-toplevel-icon-v1 win over the launcher's
         # icon, so the Vesktop mute badge shows in the Icons-only Task Manager.
-        # KWin already delivers the icon; libtaskmanager is the only place that
-        # drops it. Upstream deliberately prefers the launcher icon (kde#356609,
-        # reaffirmed for this protocol in kde#459735), so this is not expected to
-        # land upstream in this form; drop the patch if that ever changes.
         plasma-workspace = kprev.plasma-workspace.overrideAttrs (old: {
           patches =
             (old.patches or [])
@@ -52,6 +57,11 @@
                 hash = "sha256-c4nAVhI3m9VeGy+rZLPS8Z98RS9JbrHe/mdiuee5y4s=";
               };
             });
+          })
+          (_ufinal: uprev: {
+            android-studio = uprev.android-studio.override {stdenv = localStdenv uprev;};
+            vscode = keepLocal uprev.vscode;
+            steam-unwrapped = keepLocal uprev.steam-unwrapped;
           })
           # Include wayvr overlay to have it in unstable
           (final: _prev: let
