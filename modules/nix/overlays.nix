@@ -21,12 +21,15 @@ in {
 
       displaylink = keepLocal prev.displaylink;
 
-      # Patch kwin to provide more metadata for screencasts
+      # Patch kwin for screencast metadata and focus-independent clipboard export
       kdePackages = prev.kdePackages.overrideScope (_kfinal: kprev: {
         kwin = kprev.kwin.overrideAttrs (old: {
           patches =
             (old.patches or [])
-            ++ [../desktop/discord/auto-audio/kwin-screencast-metadata.patch];
+            ++ [
+              ../desktop/discord/auto-audio/kwin-screencast-metadata.patch
+              ../gaming/vr/kwin-xwl-clipboard-unfocused.patch
+            ];
         });
 
         # Let a window icon set via xdg-toplevel-icon-v1 win over the launcher's

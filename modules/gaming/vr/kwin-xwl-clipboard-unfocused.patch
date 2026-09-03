@@ -1,0 +1,12 @@
+diff --git a/src/xwayland/clipboard.cpp b/src/xwayland/clipboard.cpp
+--- a/src/xwayland/clipboard.cpp
++++ b/src/xwayland/clipboard.cpp
+@@ -58,7 +58,7 @@ void Clipboard::selectionDisowned()
+ 
+ bool Clipboard::x11ClientsCanAccessSelection() const
+ {
+-    return qobject_cast<X11Window *>(workspace()->activeWindow());
++    return true;
+ }
+ 
+ void Clipboard::onSelectionChanged()
