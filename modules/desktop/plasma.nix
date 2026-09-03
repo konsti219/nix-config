@@ -25,6 +25,9 @@
       };
       services.desktopManager.plasma6.enable = true;
 
+      # Useless on NixOS
+      environment.plasma6.excludePackages = [pkgs.kdePackages.drkonqi];
+
       # KDE Connect
       programs.kdeconnect.enable = true;
     };
