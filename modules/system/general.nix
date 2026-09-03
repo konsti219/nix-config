@@ -21,6 +21,9 @@ in {
       # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
       networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
+      # No WWAN hardware on either host, and NetworkManager pulls it in by default
+      networking.modemmanager.enable = false;
+
       # Configure network proxy if necessary
       # networking.proxy.default = "http://user:password@proxy:port/";
       # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -30,6 +33,12 @@ in {
       networking.firewall.allowedUDPPorts = [5000 5201];
       # Or disable the firewall altogether.
       # networking.firewall.enable = false;
+
+      # =======
+      # Logging
+      # =======
+
+      services.journald.rateLimitBurst = 1000;
 
       # ============
       # Nix Settings

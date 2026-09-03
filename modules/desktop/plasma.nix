@@ -26,7 +26,16 @@
       services.desktopManager.plasma6.enable = true;
 
       # Useless on NixOS
-      environment.plasma6.excludePackages = [pkgs.kdePackages.drkonqi];
+      environment.plasma6.excludePackages = with pkgs.kdePackages; [
+        drkonqi
+        discover
+      ];
+
+      # plasmashell ignores SIGTERM on shutdown and always burns its full 40s timeout
+      systemd.user.services.plasma-plasmashell = {
+        overrideStrategy = "asDropin";
+        serviceConfig.TimeoutStopSec = 5;
+      };
 
       # KDE Connect
       programs.kdeconnect.enable = true;
