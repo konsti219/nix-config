@@ -1,6 +1,4 @@
-{config, ...}: let
-  inherit (config) mainUser;
-in {
+{...}: {
   flake.modules.nixos.base =
     # Genral config to be used across all systems
     {pkgs, ...}: {
@@ -51,18 +49,8 @@ in {
       # Security
       # ========
 
+      # Memory-safe sudo; mainUser is in wheel, so the default rule covers it
       security.sudo.enable = false;
-      security.doas.enable = true;
-      security.doas.extraRules = [
-        {
-          users = [mainUser];
-          keepEnv = true;
-          persist = true;
-        }
-      ];
-
-      environment.shellAliases = {
-        sudo = "doas";
-      };
+      security.sudo-rs.enable = true;
     };
 }
