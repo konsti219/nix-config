@@ -66,6 +66,16 @@ in {
             vscode = keepLocal uprev.vscode;
             steam-unwrapped = keepLocal uprev.steam-unwrapped;
           })
+          # Attach to the slimevr-server unit instead of spawning a second server
+          (_ufinal: uprev: {
+            slimevr = uprev.slimevr.overrideAttrs (old: {
+              postFixup =
+                (old.postFixup or "")
+                + ''
+                  wrapProgram $out/bin/slimevr --inherit-argv0 --add-flags "--skip-server-if-running"
+                '';
+            });
+          })
           # Include wayvr overlay to have it in unstable
           (final: _prev: let
             wayvrPackages = inputs.wayvr.packages.${final.stdenv.hostPlatform.system};

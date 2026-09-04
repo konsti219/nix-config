@@ -1,4 +1,6 @@
-{
+{config, ...}: let
+  inherit (config) mainUser;
+in {
   flake.modules = {
     nixos.hail = {
       pkgs,
@@ -21,6 +23,34 @@
       };
 
       networking.firewall.allowedUDPPorts = [6969];
+
+      # Headless server runs 24/7 so the GUI is only a viewer
+      systemd.user.services.slimevr-server = {
+        description = "SlimeVR server";
+        wantedBy = ["default.target"];
+        # Heap defaults scale to a fraction of RAM; the live set is ~27M
+        environment.JDK_JAVA_OPTIONS = "-Xms64m -Xmx128m";
+        serviceConfig = {
+          ExecStart = "${lib.getExe pkgs.unstable.slimevr-server} run";
+          Restart = "on-failure";
+        };
+      };
+
+      # Tracker discovery caches network interfaces at startup, so trackers stay
+      # disconnected after a suspend cycle until the server is restarted
+      systemd.services.slimevr-resume = {
+        description = "Restart SlimeVR server after resume";
+        wantedBy = ["sleep.target"];
+        before = ["sleep.target"];
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+          User = mainUser;
+          Environment = "XDG_RUNTIME_DIR=/run/user/%U";
+          ExecStart = "${pkgs.coreutils}/bin/true";
+          ExecStop = "-${config.systemd.package}/bin/systemctl --user restart slimevr-server.service";
+        };
+      };
 
       environment.systemPackages = with pkgs.unstable; [
         wayvr
