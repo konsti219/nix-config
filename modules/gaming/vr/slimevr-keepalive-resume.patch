@@ -1,0 +1,23 @@
+diff --git a/server/core/src/main/java/dev/slimevr/tracking/trackers/udp/TrackersUDPServer.kt b/server/core/src/main/java/dev/slimevr/tracking/trackers/udp/TrackersUDPServer.kt
+index 4e832fa..bfbf5ea 100644
+--- a/server/core/src/main/java/dev/slimevr/tracking/trackers/udp/TrackersUDPServer.kt
++++ b/server/core/src/main/java/dev/slimevr/tracking/trackers/udp/TrackersUDPServer.kt
+@@ -343,7 +343,7 @@ class TrackersUDPServer(private val port: Int, name: String, private val tracker
+ 						e,
+ 					)
+ 				}
+-				if (lastKeepup + 500 < System.currentTimeMillis()) {
++				if (lastKeepup + 500 < System.currentTimeMillis()) try {
+ 					lastKeepup = System.currentTimeMillis()
+ 					synchronized(connections) {
+ 						for (conn in connections) {
+@@ -392,6 +392,9 @@ class TrackersUDPServer(private val port: Int, name: String, private val tracker
+ 							}
+ 						}
+ 					}
++				} catch (e: Exception) {
++					// A transient send failure (no network yet after resume) must not kill the thread
++					LogManager.warning("[TrackerServer] Error sending keepalive: ${e.message}")
+ 				}
+ 			}
+ 		} catch (e: Exception) {

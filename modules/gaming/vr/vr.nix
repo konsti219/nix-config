@@ -1,6 +1,4 @@
-{config, ...}: let
-  inherit (config) mainUser;
-in {
+{
   flake.modules = {
     nixos.hail = {
       pkgs,
@@ -33,22 +31,6 @@ in {
         serviceConfig = {
           ExecStart = "${lib.getExe pkgs.unstable.slimevr-server} run";
           Restart = "on-failure";
-        };
-      };
-
-      # Tracker discovery caches network interfaces at startup, so trackers stay
-      # disconnected after a suspend cycle until the server is restarted
-      systemd.services.slimevr-resume = {
-        description = "Restart SlimeVR server after resume";
-        wantedBy = ["sleep.target"];
-        before = ["sleep.target"];
-        serviceConfig = {
-          Type = "oneshot";
-          RemainAfterExit = true;
-          User = mainUser;
-          Environment = "XDG_RUNTIME_DIR=/run/user/%U";
-          ExecStart = "${pkgs.coreutils}/bin/true";
-          ExecStop = "-${config.systemd.package}/bin/systemctl --user restart slimevr-server.service";
         };
       };
 
