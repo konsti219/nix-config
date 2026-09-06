@@ -24,6 +24,11 @@
       TZDIR = lib.mkForce null;
     };
   };
+  nixpkgs.overlays = [
+    (_final: prev: {
+      btop = prev.btop.override {rocmSupport = true;};
+    })
+  ];
   powerManagement.cpuFreqGovernor = "performance";
   hardware.enableRedistributableFirmware = true;
 }
