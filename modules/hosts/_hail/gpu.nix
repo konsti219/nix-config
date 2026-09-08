@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}: {
+{pkgs, ...}: {
   hardware.amdgpu.overdrive.enable = true;
   services.lact.enable = true;
   services.lact.package = pkgs.unstable.lact;
@@ -16,13 +12,7 @@
   # Work around DCC metadata corruption painting 8x4 garbage blocks into the wallpaper
   systemd.user.services.plasma-plasmashell = {
     overrideStrategy = "asDropin";
-    # nulls drop the global defaults so the unit keeps the session PATH it launches apps with
-    environment = {
-      AMD_DEBUG = "nodcc";
-      PATH = lib.mkForce null;
-      LOCALE_ARCHIVE = lib.mkForce null;
-      TZDIR = lib.mkForce null;
-    };
+    environment.AMD_DEBUG = "nodcc";
   };
   nixpkgs.overlays = [
     (_final: prev: {

@@ -35,6 +35,12 @@
       systemd.user.services.plasma-plasmashell = {
         overrideStrategy = "asDropin";
         serviceConfig.TimeoutStopSec = 5;
+        # nulls drop the global defaults so the unit keeps the session PATH it launches apps with
+        environment = {
+          PATH = lib.mkForce null;
+          LOCALE_ARCHIVE = lib.mkForce null;
+          TZDIR = lib.mkForce null;
+        };
       };
 
       # KDE Connect
