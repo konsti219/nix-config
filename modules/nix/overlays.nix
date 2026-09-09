@@ -21,6 +21,9 @@ in {
 
       displaylink = keepLocal prev.displaylink;
 
+      # Blender with the python deps blender addons need
+      blender = final.callPackage ../../pkgs/blender.nix {blender = prev.blender;};
+
       # Patch kwin for screencast metadata and focus-independent clipboard export
       kdePackages = prev.kdePackages.overrideScope (_kfinal: kprev: {
         kwin = kprev.kwin.overrideAttrs (old: {
