@@ -24,6 +24,21 @@
   virtualisation.spiceUSBRedirection.enable = true;
   programs.virt-manager.enable = true;
 
+  # Let a plain user-run QEMU (~/vm, no libvirt) open the passed-through iGPU.
+  services.udev.extraRules = ''
+    SUBSYSTEM=="vfio", GROUP="kvm", MODE="0660"
+  '';
+
+  # VFIO pins the whole guest RAM, so the 8 MiB default memlock is not enough.
+  security.pam.loginLimits = [
+    {
+      domain = "@kvm";
+      type = "-";
+      item = "memlock";
+      value = "unlimited";
+    }
+  ];
+
   environment.systemPackages = with pkgs; [
     virt-viewer
   ];
