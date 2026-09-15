@@ -1,7 +1,7 @@
 diff --git a/src/xwayland/clipboard.cpp b/src/xwayland/clipboard.cpp
 --- a/src/xwayland/clipboard.cpp
 +++ b/src/xwayland/clipboard.cpp
-@@ -58,7 +58,7 @@ void Clipboard::selectionDisowned()
+@@ -58,7 +58,7 @@ Clipboard::~Clipboard()
  
  bool Clipboard::x11ClientsCanAccessSelection() const
  {
@@ -10,3 +10,16 @@ diff --git a/src/xwayland/clipboard.cpp b/src/xwayland/clipboard.cpp
  }
  
  void Clipboard::onSelectionChanged()
+diff --git a/src/xwayland/selection.cpp b/src/xwayland/selection.cpp
+--- a/src/xwayland/selection.cpp
++++ b/src/xwayland/selection.cpp
+@@ -173,7 +173,8 @@ bool Selection::handleSelectionRequest(xcb_selection_request_event_t *event)
+         return false;
+     }
+ 
+-    if (qobject_cast<X11Window *>(workspace()->activeWindow()) == nullptr) {
++    // Clipboard is served to unfocused X11 clients too, Wine caches the selection at claim time
++    if (m_atom != atoms->clipboard && qobject_cast<X11Window *>(workspace()->activeWindow()) == nullptr) {
+         // Receiving Wayland selection not allowed when no Xwayland surface active
+         // filter the event, but don't act upon it
+         sendSelectionNotify(event, false);

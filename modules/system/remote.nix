@@ -20,6 +20,18 @@ in {
     home.packages = [pkgs.unstable.moonlight-qt];
   };
 
+  # Shadow the launcher, so clicking it can't start an unconfigured instance next to the units.
+  # The sibling .kwin.desktop that grants screencast access is a different file and stays visible.
+  flake.modules.homeManager.hail = {
+    home.file.".local/share/applications/dev.lizardbyte.app.Sunshine.desktop".text = ''
+      [Desktop Entry]
+      Type=Application
+      Name=Sunshine
+      NoDisplay=true
+      Hidden=true
+    '';
+  };
+
   flake.modules.nixos.hail = {
     config,
     lib,
@@ -44,9 +56,12 @@ in {
         inherit (monitor) port;
         # kms capture enumerates no outputs under KWin and silently falls back to software x264
         capture = "kwin";
-        encoder = "vaapi";
+        # vaapi can't load radeonsi_drv_video.so (libva ABI skew against the vendored ffmpeg)
+        encoder = "vulkan";
         adapter_name = "/dev/dri/renderD128";
         output_name = monitor.output;
+        # One tray icon per instance is just confusing, and quitting from it kills the unit
+        system_tray = "disabled";
         file_apps = "${apps}";
         # Both instances share $HOME, so keep every writable path per-instance
         credentials_file = "${stateDir name}/credentials.json";

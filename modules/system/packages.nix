@@ -18,7 +18,6 @@
     ];
 
   commonAliases = pkgs: {
-    ls = "eza";
     ll = "eza -l";
     l = "${pkgs.printpath}/bin/printpath.sh";
     cat = "bat";

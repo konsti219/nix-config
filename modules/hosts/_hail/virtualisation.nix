@@ -1,8 +1,6 @@
 {pkgs, ...}: {
-  boot.kernelParams = [
-    "amd_iommu=on"
-    "iommu=pt"
-  ];
+  # amd_iommu=on is not a valid value; the kernel rejects it and enables AMD-Vi anyway.
+  boot.kernelParams = ["iommu=pt"];
 
   boot.initrd.kernelModules = [
     "vfio_pci"
@@ -11,7 +9,7 @@
   ];
 
   boot.extraModprobeConfig = ''
-    options vfio-pci ids=1002:13c0,1002:1640 disable_vga=1
+    options vfio-pci ids=1002:13c0,1002:1640
   '';
 
   virtualisation.libvirtd = {
