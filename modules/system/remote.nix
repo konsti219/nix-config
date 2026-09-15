@@ -1,18 +1,7 @@
 {config, ...}: let
   inherit (config) mainUser;
 
-  # Sunshine captures one output per process, so hail runs an instance per monitor
-  monitors = {
-    dp1 = {
-      output = "DP-1";
-      port = 47989;
-    };
-    dp2 = {
-      output = "DP-2";
-      port = 48989;
-    };
-  };
-
+  port = 47989;
   tcpOffsets = [(-5) 0 1 21];
   udpOffsets = [9 10 11 13 21];
 in {
@@ -20,7 +9,7 @@ in {
     home.packages = [pkgs.unstable.moonlight-qt];
   };
 
-  # Shadow the launcher, so clicking it can't start an unconfigured instance next to the units.
+  # Shadow the launcher, so clicking it can't start an unconfigured instance next to the unit.
   # The sibling .kwin.desktop that grants screencast access is a different file and stays visible.
   flake.modules.homeManager.hail = {
     home.file.".local/share/applications/dev.lizardbyte.app.Sunshine.desktop".text = ''
@@ -48,30 +37,27 @@ in {
       ];
     };
 
-    stateDir = name: "${config.users.users.${mainUser}.home}/.local/state/sunshine-${name}";
+    stateDir = "${config.users.users.${mainUser}.home}/.local/state/sunshine";
 
-    configFile = name: monitor:
-      (pkgs.formats.keyValue {}).generate "sunshine-${name}.conf" {
-        sunshine_name = "${config.networking.hostName} ${monitor.output}";
-        inherit (monitor) port;
-        # kms capture enumerates no outputs under KWin and silently falls back to software x264
-        capture = "kwin";
-        # vaapi can't load radeonsi_drv_video.so (libva ABI skew against the vendored ffmpeg)
-        encoder = "vulkan";
-        adapter_name = "/dev/dri/renderD128";
-        output_name = monitor.output;
-        # One tray icon per instance is just confusing, and quitting from it kills the unit
-        system_tray = "disabled";
-        file_apps = "${apps}";
-        # Both instances share $HOME, so keep every writable path per-instance
-        credentials_file = "${stateDir name}/credentials.json";
-        file_state = "${stateDir name}/state.json";
-        log_path = "${stateDir name}/sunshine.log";
-        pkey = "${stateDir name}/cert.key";
-        cert = "${stateDir name}/cert.crt";
-      };
-
-    ports = offsets: lib.concatMap (m: map (o: m.port + o) offsets) (lib.attrValues monitors);
+    configFile = (pkgs.formats.keyValue {}).generate "sunshine.conf" {
+      sunshine_name = config.networking.hostName;
+      inherit port;
+      # kms capture enumerates no outputs under KWin and silently falls back to software x264
+      capture = "kwin";
+      # vaapi can't load radeonsi_drv_video.so (libva ABI skew against the vendored ffmpeg)
+      encoder = "vulkan";
+      adapter_name = "/dev/dri/renderD128";
+      # Only the initial output; Ctrl+Alt+Shift+F1/F2… switches mid-stream in KDE output priority order
+      output_name = "DP-1";
+      # Quitting from the tray exits cleanly, which Restart=on-failure won't bring back
+      system_tray = "disabled";
+      file_apps = "${apps}";
+      credentials_file = "${stateDir}/credentials.json";
+      file_state = "${stateDir}/state.json";
+      log_path = "${stateDir}/sunshine.log";
+      pkey = "${stateDir}/cert.key";
+      cert = "${stateDir}/cert.crt";
+    };
   in {
     environment.systemPackages = [pkgs.sunshine];
 
@@ -89,30 +75,28 @@ in {
     };
 
     networking.firewall = {
-      allowedTCPPorts = ports tcpOffsets;
-      allowedUDPPorts = ports udpOffsets;
+      allowedTCPPorts = map (o: port + o) tcpOffsets;
+      allowedUDPPorts = map (o: port + o) udpOffsets;
     };
 
-    systemd.user.services = lib.mapAttrs' (name: monitor:
-      lib.nameValuePair "sunshine-${name}" {
-        description = "Sunshine stream host for ${monitor.output}";
+    systemd.user.services.sunshine = {
+      description = "Sunshine stream host";
 
-        wantedBy = ["graphical-session.target"];
-        partOf = ["graphical-session.target"];
-        wants = ["graphical-session.target"];
-        # Autologin can otherwise start this before KWin owns the screencast protocol
-        after = ["graphical-session.target" "plasma-kwin_wayland.service"];
+      wantedBy = ["graphical-session.target"];
+      partOf = ["graphical-session.target"];
+      wants = ["graphical-session.target"];
+      # Autologin can otherwise start this before KWin owns the screencast protocol
+      after = ["graphical-session.target" "plasma-kwin_wayland.service"];
 
-        startLimitIntervalSec = 500;
-        startLimitBurst = 5;
+      startLimitIntervalSec = 500;
+      startLimitBurst = 5;
 
-        serviceConfig = {
-          ExecStart = "${lib.getExe pkgs.sunshine} ${configFile name monitor}";
-          Restart = "on-failure";
-          RestartSec = "5s";
-          StateDirectory = "sunshine-${name}";
-        };
-      })
-    monitors;
+      serviceConfig = {
+        ExecStart = "${lib.getExe pkgs.sunshine} ${configFile}";
+        Restart = "on-failure";
+        RestartSec = "5s";
+        StateDirectory = "sunshine";
+      };
+    };
   };
 }
