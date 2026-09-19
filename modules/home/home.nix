@@ -39,6 +39,8 @@ in {
       zstd
       glow
       imagemagickBig
+      ffmpeg
+      yt-dlp
 
       # Dev tools
       (lib.hiPrio clang)
