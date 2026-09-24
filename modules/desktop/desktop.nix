@@ -9,6 +9,7 @@
       # Dev tools
       android-studio
       arduino-ide
+      kicad
 
       # Creative tools
       pkgs.blender

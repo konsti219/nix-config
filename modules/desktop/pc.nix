@@ -165,6 +165,10 @@ in {
 
       programs.wireshark.enable = true;
       services.davfs2.enable = true;
+      programs.localsend = {
+        enable = true;
+        package = pkgs.unstable.localsend;
+      };
 
       services.ratbagd = {
         enable = true;
