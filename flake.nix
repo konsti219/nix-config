@@ -9,6 +9,9 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     # nixpkgs-unstable.url = "github:NixOS/nixpkgs/master"; # Master branch: fastest updates, least cache
 
+    # Last unstable on glibc 2.42, for libs loaded into stable processes; drop once 26.11 is out
+    nixpkgs-glibc242.url = "github:NixOS/nixpkgs/4975466d324710c576dc11ad614684e6bd8cad8e";
+
     # Flake output framework
     flake-parts = {
       url = "github:hercules-ci/flake-parts";
@@ -47,7 +50,8 @@
 
     wayvr = {
       url = "github:konsti219/wayvr";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
+      # xrizer and the WiVRn client get loaded into games
+      inputs.nixpkgs.follows = "nixpkgs-glibc242";
     };
   };
 

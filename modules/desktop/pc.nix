@@ -67,8 +67,9 @@ in {
 
       hardware.graphics = {
         enable = true;
-        package = pkgs.unstable.mesa;
-        package32 = pkgs.unstable.pkgsi686Linux.mesa;
+        # New mesa, but on stable's glibc so stable processes can still load it
+        package = pkgs.glibc242.mesa;
+        package32 = pkgs.glibc242.pkgsi686Linux.mesa;
       };
 
       # OBS virtual camera (OBS itself is installed via home-manager)

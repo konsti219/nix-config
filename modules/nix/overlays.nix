@@ -48,6 +48,8 @@ in {
     # When applied, the unstable nixpkgs set (declared in the flake inputs) will
     # be accessible through 'pkgs.unstable'
     unstable-packages = final: _prev: {
+      glibc242 = inputs.nixpkgs-glibc242.legacyPackages.${final.stdenv.hostPlatform.system};
+
       unstable = import inputs.nixpkgs-unstable {
         system = final.stdenv.hostPlatform.system;
         config.allowUnfree = true;
