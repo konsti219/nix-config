@@ -16,7 +16,7 @@
         config.enable = true;
         config.json = {
           application = [pkgs.unstable.wayvr];
-          openvr-compat-path = "${pkgs.xrizer}/lib/xrizer";
+          openvr-compat-path = "${pkgs.unstable.xrizer}/lib/xrizer";
         };
       };
 

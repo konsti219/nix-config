@@ -132,17 +132,25 @@
       left: "/user/hand/left/output/haptic",
       right: "/user/hand/right/output/haptic"
     },
+    // Bumpers are also bound to space_drag: they click while pointing at an overlay and drag otherwise
     click: {
-      left: "/user/hand/left/input/trigger/value",
-      right: "/user/hand/right/input/trigger/value"
+      left: ["/user/hand/left/input/trigger/value", "/user/hand/left/input/bumper/click"],
+      right: [
+        "/user/hand/right/input/trigger/value",
+        "/user/hand/right/input/bumper/click",
+        "/user/hand/right/input/a/click"
+      ]
     },
     click_right: {
-      left: "/user/hand/left/input/dpad_up/click",
-      right: "/user/hand/right/input/b/click"
+      right: "/user/hand/right/input/x/click"
     },
-    // Double-bound with click_right: only matters while aiming at the watch.
+    click_middle: {
+      right: "/user/hand/right/input/y/click"
+    },
+    // Same buttons as VRChat's menu: left d-pad right and right X
     reveal_watch: {
-      left: "/user/hand/left/input/dpad_up/click",
+      left: "/user/hand/left/input/dpad_right/click",
+      right: "/user/hand/right/input/x/click"
     },
     grab: {
       left: "/user/hand/left/input/squeeze/value",
@@ -155,7 +163,8 @@
     },
     show_hide: {
       double_click: false,
-      left: "/user/hand/left/input/view/click"
+      left: "/user/hand/left/input/view/click",
+      right: "/user/hand/right/input/menu/click"
     },
     space_drag: {
       left: "/user/hand/left/input/bumper/click",
@@ -164,6 +173,7 @@
     space_reset: {
       double_click: true,
       left: "/user/hand/left/input/bumper/click",
+      right: "/user/hand/right/input/bumper/click"
     },
     move_mouse: {
       // used with focus_follows_mouse_mode
