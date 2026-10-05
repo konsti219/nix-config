@@ -38,6 +38,14 @@
       # runs after `pnpm install`, so neither the plugin nor the vendored modules
       # are visible to the pinned pnpm hash.
       vencordWithBridge = upkgs.vencord.overrideAttrs (old: {
+        # TODO: drop once nixos-unstable has >= 1.15.8; 1.15.7 breaks vesktop's screenshare modal
+        version = "1.15.9";
+        src = pkgs.fetchFromGitHub {
+          owner = "Vendicated";
+          repo = "Vencord";
+          rev = "v1.15.9";
+          hash = "sha256-LuIwFUAJOoV8Su0g1tvhvXhMEJbkpM2BCCOWzQR4JIA=";
+        };
         preBuild =
           (old.preBuild or "")
           + ''
