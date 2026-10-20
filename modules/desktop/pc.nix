@@ -73,7 +73,12 @@ in {
       };
 
       # OBS virtual camera (OBS itself is installed via home-manager)
-      boot.extraModulePackages = [config.boot.kernelPackages.v4l2loopback];
+      boot.extraModulePackages = [
+        # 0.15.4's modules_install runs depmod into $out, whose index files clash with the kernel's
+        (config.boot.kernelPackages.v4l2loopback.overrideAttrs (old: {
+          postInstall = (old.postInstall or "") + "rm -f $out/lib/modules/*/modules.*\n";
+        }))
+      ];
       boot.kernelModules = ["v4l2loopback"];
       boot.extraModprobeConfig = ''
         options v4l2loopback devices=1 video_nr=9 card_label="OBS Virtual Camera" exclusive_caps=1

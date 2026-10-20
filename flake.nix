@@ -47,12 +47,6 @@
       url = "github:konsti219/pipemeeter";
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
-
-    wayvr = {
-      url = "github:konsti219/wayvr";
-      # xrizer and the WiVRn client get loaded into games
-      inputs.nixpkgs.follows = "nixpkgs-glibc242";
-    };
   };
 
   outputs = inputs:

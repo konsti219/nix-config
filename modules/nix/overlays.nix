@@ -71,16 +71,6 @@ in {
             vscode = keepLocal uprev.vscode;
             steam-unwrapped = keepLocal uprev.steam-unwrapped;
           })
-          # Include wayvr overlay to have it in unstable
-          (final: _prev: let
-            wayvrPackages = inputs.wayvr.packages.${final.stdenv.hostPlatform.system};
-          in {
-            wayvr = wayvrPackages.default;
-            wivrn = wayvrPackages.wivrn;
-            xrizer = wayvrPackages.xrizer;
-            wayvr-media-bridge = wayvrPackages.media-bridge;
-            wayvr-ytmusic-extension = wayvrPackages.ytmusic-extension;
-          })
         ];
       };
     };
