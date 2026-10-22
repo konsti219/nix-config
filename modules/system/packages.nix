@@ -7,6 +7,7 @@
       file
       eza
       bat
+      fd
       wget
       tree
       git
