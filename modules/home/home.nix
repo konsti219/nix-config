@@ -59,6 +59,7 @@ in {
         python-pkgs.numpy
         python-pkgs.pandas
         python-pkgs.matplotlib
+        python-pkgs.pwntools
       ]))
       uv
       dbeaver-bin
