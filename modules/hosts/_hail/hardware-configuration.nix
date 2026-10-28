@@ -31,13 +31,13 @@
   fileSystems."/mnt/data" = {
     device = "/dev/disk/by-uuid/B8C2950AC294CE4E";
     fsType = "ntfs3";
-    options = ["uid=1000" "gid=100" "noatime" "nofail"];
+    options = ["uid=1000" "gid=100" "noatime" "nofail" "ads=0"];
   };
 
   fileSystems."/mnt/windows" = {
     device = "/dev/disk/by-uuid/70B00D11B00CDF88";
     fsType = "ntfs3";
-    options = ["noatime" "nofail"];
+    options = ["noatime" "nofail" "ads=0"];
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
