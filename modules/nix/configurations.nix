@@ -23,27 +23,13 @@
           modulesFor "nixos" name
           ++ [
             {
-              networking.hostName = "${host.hostName}${suffix}";
+              networking.hostName = "${name}${suffix}";
               home-manager.users.${mainUser}.imports = modulesFor "homeManager" name;
             }
           ];
       };
-
-    homeConfiguration = name: host:
-      inputs.home-manager-unstable.lib.homeManagerConfiguration {
-        pkgs = inputs.nixpkgs-unstable.legacyPackages.${host.platform};
-        modules =
-          [
-            modules.generic.nixpkgs
-            modules.homeManager.standalone
-          ]
-          ++ modulesFor "homeManager" name;
-      };
-
-    build = f: lib.mapAttrs' (name: host: lib.nameValuePair "${name}${suffix}" (f name host));
   in {
-    nixosConfigurations = build nixosSystem (lib.filterAttrs (_: host: host.nixos) hosts);
-    homeConfigurations = build homeConfiguration hosts;
+    nixosConfigurations = lib.mapAttrs' (name: host: lib.nameValuePair "${name}${suffix}" (nixosSystem name host)) hosts;
   };
 in {
   flake = lib.mkMerge [

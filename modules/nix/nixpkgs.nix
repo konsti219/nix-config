@@ -23,9 +23,5 @@
     ];
   };
 in {
-  # Also used on its own by the standalone home-manager configurations
-  flake.modules = {
-    generic.nixpkgs = nixpkgs;
-    nixos.base.imports = [nixpkgs];
-  };
+  flake.modules.nixos.base.imports = [nixpkgs];
 }
