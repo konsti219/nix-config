@@ -45,8 +45,6 @@ in {
           fi
 
           source ${./p10k.zsh}
-
-          export PATH="$PATH:$HOME/.cargo/bin"
         '';
 
         oh-my-zsh = {

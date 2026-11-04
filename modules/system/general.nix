@@ -44,6 +44,8 @@
 
       # Enable new cli and flakes
       nix.settings.experimental-features = ["nix-command" "flakes"];
+      # Keeps ~/.nix-profile and ~/.nix-defexpr out of $HOME
+      nix.settings.use-xdg-base-directories = true;
 
       # ========
       # Security
