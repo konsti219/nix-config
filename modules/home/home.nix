@@ -77,7 +77,7 @@ in {
     };
 
     # gdb config
-    home.file.".gdbinit".text = ''
+    xdg.configFile."gdb/gdbinit".text = ''
       set disassembly-flavor intel
       set print pretty on
       alias di = disas /r $pc, +
@@ -87,7 +87,7 @@ in {
       alias uir = la reg
       alias di1 = disas /r $pc, +1
     '';
-    home.file.".gdbearlyinit".text = ''
+    xdg.configFile."gdb/gdbearlyinit".text = ''
       set startup-quietly on
     '';
 

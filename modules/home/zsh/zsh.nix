@@ -3,7 +3,11 @@
 in {
   flake.modules.homeManager.base =
     # Configure zsh
-    {pkgs, ...}: {
+    {
+      pkgs,
+      config,
+      ...
+    }: {
       home.shellAliases =
         {
           # useful shorthands
@@ -19,7 +23,11 @@ in {
       programs.bash.enable = true;
       programs.zsh = {
         enable = true;
-        history.size = 16384;
+        dotDir = "${config.xdg.configHome}/zsh";
+        history = {
+          size = 16384;
+          path = "${config.xdg.stateHome}/zsh/history";
+        };
 
         enableCompletion = true;
         autosuggestion.enable = true;
