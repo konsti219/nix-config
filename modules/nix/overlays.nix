@@ -68,7 +68,18 @@ in {
           })
           (_ufinal: uprev: {
             android-studio = uprev.android-studio.override {stdenv = localStdenv uprev;};
-            vscode = keepLocal uprev.vscode;
+            # keep vscode things out of $HOME
+            vscode = keepLocal (uprev.vscode.overrideAttrs (old: {
+              postInstall =
+                (old.postInstall or "")
+                + ''
+                  f=$out/lib/vscode/resources/app/product.json
+                  ${uprev.jq}/bin/jq '.dataFolderName = ".local/share/vscode"
+                    | .sharedDataFolderName = ".local/share/vscode-shared"
+                    | .serverDataFolderName = ".local/share/vscode-server"' $f > $f.tmp
+                  mv $f.tmp $f
+                '';
+            }));
             steam-unwrapped = keepLocal uprev.steam-unwrapped;
           })
         ];

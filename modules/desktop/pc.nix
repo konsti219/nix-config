@@ -149,7 +149,6 @@ in {
 
       # General Desktop software
       environment.systemPackages = with pkgs; [
-        thunderbird
         unstable.vscode
         unstable.nil
         btop

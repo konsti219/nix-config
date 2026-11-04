@@ -7,7 +7,7 @@
   }: let
     inherit (config.xdg) configHome dataHome stateHome cacheHome;
     # Recreated by programs that hardcode them and not worth keeping
-    junk = [".java" ".dotnet" ".plastic4" ".pki"];
+    junk = [".dotnet" ".plastic4" ".pki"];
   in {
     home.sessionVariables = {
       CARGO_HOME = "${dataHome}/cargo";
@@ -21,22 +21,26 @@
       COPILOT_HOME = "${configHome}/copilot";
       PYTHON_HISTORY = "${stateHome}/python/history";
       WGETRC = "${configHome}/wgetrc";
+      VSCODE_AGENT_FOLDER = "${dataHome}/vscode-server";
     };
     home.sessionPath = ["${dataHome}/cargo/bin"];
 
     xdg.configFile."wgetrc".text = "hsts-file = ${cacheHome}/wget-hsts\n";
-    systemd.user.tmpfiles.rules = ["d ${stateHome}/python 0700 - - -"];
+    programs.bash.historyFile = "${stateHome}/bash/history";
+    systemd.user.tmpfiles.rules = ["d ${stateHome}/python 0700 - - -" "d ${stateHome}/bash 0700 - - -"];
 
     systemd.user.services.home-junk-cleanup = {
       Unit.Description = "Remove dot dirs that programs recreate in $HOME";
       Service = {
         Type = "oneshot";
         ExecStart = toString (pkgs.writeShellScript "home-junk-cleanup" ''
+          PATH=${lib.makeBinPath [pkgs.coreutils pkgs.findutils]}
           cd "$HOME" || exit 1
-          ${pkgs.coreutils}/bin/rm -rf --one-file-system ${lib.escapeShellArgs junk}
-          # .var also holds real flatpak app data once any app is installed
-          if [ -z "$(${pkgs.coreutils}/bin/ls -A ${dataHome}/flatpak/app /var/lib/flatpak/app 2>/dev/null)" ]; then
-            ${pkgs.coreutils}/bin/rm -rf --one-file-system .var
+          rm -rf --one-file-system ${lib.escapeShellArgs junk}
+          # Font cache
+          [ -e .java/.userPrefs ] || rm -rf --one-file-system .java
+          if [ -d .var ] && [ -z "$(find .var -type f ! -name plasma-browser-integration-host ! -name org.kde.plasma.browser_integration.json)" ]; then
+            rm -rf --one-file-system .var
           fi
         '');
       };
