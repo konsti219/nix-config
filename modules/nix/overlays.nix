@@ -24,15 +24,12 @@ in {
       # Blender with the python deps blender addons need
       blender = final.callPackage ../../pkgs/blender.nix {blender = prev.blender;};
 
-      # Patch kwin for screencast metadata and focus-independent clipboard export
+      # Patch kwin for focus-independent clipboard export
       kdePackages = prev.kdePackages.overrideScope (_kfinal: kprev: {
         kwin = kprev.kwin.overrideAttrs (old: {
           patches =
             (old.patches or [])
-            ++ [
-              ../desktop/discord/auto-audio/kwin-screencast-metadata.patch
-              ../gaming/vr/kwin-xwl-clipboard-unfocused.patch
-            ];
+            ++ [../gaming/vr/kwin-xwl-clipboard-unfocused.patch];
         });
 
         # Let a window icon set via xdg-toplevel-icon-v1 win over the launcher's

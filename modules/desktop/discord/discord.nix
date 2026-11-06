@@ -2,7 +2,6 @@
   flake.modules.homeManager.desktop =
     # Vesktop with the DiscordMuteBridge userplugin, which registers voice-mute
     # shortcuts with xdg-desktop-portal's GlobalShortcuts API
-    # Vesktop for screen share audio
     {
       pkgs,
       lib,
@@ -38,6 +37,19 @@
       # runs after `pnpm install`, so neither the plugin nor the vendored modules
       # are visible to the pinned pnpm hash.
       vencordWithBridge = upkgs.vencord.overrideAttrs (old: {
+        # Discord's rspack update breaks < 1.15.16; drop once nixpkgs catches up.
+        version = "1.15.16";
+        src = pkgs.fetchFromGitHub {
+          owner = "Vendicated";
+          repo = "Vencord";
+          tag = "v1.15.16";
+          hash = "sha256-aUJubLJpyLAZWiOezqFxPY6oVPgWVPQpajFqrJvrO9U=";
+        };
+        patches = [];
+        postPatch = "";
+        pnpmDeps = old.pnpmDeps.overrideAttrs {
+          outputHash = "sha256-HS8uZNepvDefjrsG3buVLFCVv7sHvazcwdpcT3EQ/78=";
+        };
         preBuild =
           (old.preBuild or "")
           + ''
@@ -57,25 +69,28 @@
       });
 
       # use vencord from nixpkgs isntead of bundled
-      vesktopBase = upkgs.vesktop.override {
-        withSystemVencord = true;
-        vencord = vencordWithBridge;
-      };
-
-      # Auto-select the screenshare audio source from the window picked in the
-      # portal; see auto-audio/autoPickAudio.ts for how the window is identified.
-      # Applied in postPatch rather than `patches` because vesktop's fetchPnpmDeps
-      # inherits `patches`, and touching it would invalidate the pinned pnpm hash.
-      vesktopWithBridge = vesktopBase.overrideAttrs (old: {
-        postPatch =
-          (old.postPatch or "")
-          + ''
-            patch -p1 < ${./auto-audio/vesktop-auto-audio.patch}
-            cp ${./auto-audio/autoPickAudio.ts} src/main/autoPickAudio.ts
-            substituteInPlace src/main/autoPickAudio.ts \
-              --replace-fail '@PW_DUMP@' '${upkgs.pipewire}/bin/pw-dump'
-          '';
-      });
+      # 1.6.9 needs electron 45 and pnpm 12; drop the bump once nixpkgs-unstable has it.
+      vesktopWithBridge =
+        (upkgs.vesktop.override {
+          withSystemVencord = true;
+          vencord = vencordWithBridge;
+          electron_44 = upkgs.electron_45;
+          pnpm_11 = upkgs.pnpm_12;
+        }).overrideAttrs (final: _old: {
+          version = "1.6.9";
+          src = pkgs.fetchFromGitHub {
+            owner = "Vencord";
+            repo = "Vesktop";
+            rev = "v${final.version}";
+            hash = "sha256-UBk3wp1wuMqyY8KMSvc/URAw9awZMFQZrJgQe59PYmA=";
+          };
+          pnpmDeps = upkgs.fetchPnpmDeps {
+            inherit (final) pname version src patches;
+            pnpm = upkgs.pnpm_12;
+            fetcherVersion = 5;
+            hash = "sha256-efgDw/4orFP9kSWjtkyXcfkXsfYLx4LGTVNKfZ5LhdM=";
+          };
+        });
     in {
       home.packages = [
         vesktopWithBridge
