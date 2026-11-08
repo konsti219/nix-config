@@ -46,6 +46,12 @@
       nix.settings.experimental-features = ["nix-command" "flakes"];
       # Keeps ~/.nix-profile and ~/.nix-defexpr out of $HOME
       nix.settings.use-xdg-base-directories = true;
+      nix.gc = {
+        automatic = true;
+        dates = "weekly";
+        options = "--delete-older-than 14d";
+      };
+      nix.optimise.automatic = true;
 
       # ========
       # Security
