@@ -69,28 +69,10 @@
       });
 
       # use vencord from nixpkgs isntead of bundled
-      # 1.6.9 needs electron 45 and pnpm 12; drop the bump once nixpkgs-unstable has it.
-      vesktopWithBridge =
-        (upkgs.vesktop.override {
-          withSystemVencord = true;
-          vencord = vencordWithBridge;
-          electron_44 = upkgs.electron_45;
-          pnpm_11 = upkgs.pnpm_12;
-        }).overrideAttrs (final: _old: {
-          version = "1.6.9";
-          src = pkgs.fetchFromGitHub {
-            owner = "Vencord";
-            repo = "Vesktop";
-            rev = "v${final.version}";
-            hash = "sha256-UBk3wp1wuMqyY8KMSvc/URAw9awZMFQZrJgQe59PYmA=";
-          };
-          pnpmDeps = upkgs.fetchPnpmDeps {
-            inherit (final) pname version src patches;
-            pnpm = upkgs.pnpm_12;
-            fetcherVersion = 5;
-            hash = "sha256-efgDw/4orFP9kSWjtkyXcfkXsfYLx4LGTVNKfZ5LhdM=";
-          };
-        });
+      vesktopWithBridge = upkgs.vesktop.override {
+        withSystemVencord = true;
+        vencord = vencordWithBridge;
+      };
     in {
       home.packages = [
         vesktopWithBridge
