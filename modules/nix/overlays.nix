@@ -78,6 +78,13 @@ in {
                 '';
             }));
             steam-unwrapped = keepLocal uprev.steam-unwrapped;
+            # cargo-setup-hook forces system libs for -sys crates; fixed on nixpkgs master, drop once it lands
+            codex = uprev.codex.overrideAttrs (old: {
+              buildInputs = (old.buildInputs or []) ++ (with uprev; [aws-lc oniguruma sqlite zstd]);
+            });
+            alcom = uprev.alcom.overrideAttrs (old: {
+              buildInputs = (old.buildInputs or []) ++ [uprev.aws-lc];
+            });
           })
         ];
       };

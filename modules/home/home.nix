@@ -51,6 +51,7 @@ in {
       gdb
       # pwndbg
       nasm
+      ghidra
       rustup
       gh
       (pkgs.python3.withPackages (python-pkgs: [
