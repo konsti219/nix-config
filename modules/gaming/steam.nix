@@ -34,5 +34,8 @@
       # The 32bit steam client does unaligned atomics, which trap on AMD bus lock
       # detection and spam the journal with "took a bus_lock trap" warnings.
       boot.kernelParams = ["split_lock_detect=off"];
+
+      # NixOS's max of 32 lets libs map below Proton's seccomp cutoff, SIGSYS-killing children (Proton#7901)
+      boot.kernel.sysctl."vm.mmap_rnd_bits" = 31;
     };
 }
