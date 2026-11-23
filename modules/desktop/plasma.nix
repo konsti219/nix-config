@@ -31,6 +31,25 @@
         discover
       ];
 
+      # plasma6 still ships drkonqi's units; keep only the crash notification path
+      systemd.user.services = {
+        # the launcher lingers until its notification is dismissed
+        "drkonqi-coredump-launcher@" = {
+          overrideStrategy = "asDropin";
+          serviceConfig.RuntimeMaxSec = "1h";
+          # keep the session PATH so "Details" can find drkonqi-coredump-gui
+          environment = {
+            PATH = lib.mkForce null;
+            LOCALE_ARCHIVE = lib.mkForce null;
+            TZDIR = lib.mkForce null;
+          };
+        };
+        drkonqi-coredump-pickup.enable = false;
+        drkonqi-sentry-postman.enable = false;
+      };
+      systemd.user.paths.drkonqi-sentry-postman.enable = false;
+      systemd.user.timers.drkonqi-sentry-postman.enable = false;
+
       # plasmashell ignores SIGTERM on shutdown and always burns its full 40s timeout
       systemd.user.services.plasma-plasmashell = {
         overrideStrategy = "asDropin";
