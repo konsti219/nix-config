@@ -34,12 +34,6 @@
     options = ["uid=1000" "gid=100" "noatime" "nofail" "ads=0"];
   };
 
-  fileSystems."/mnt/windows" = {
-    device = "/dev/disk/by-uuid/70B00D11B00CDF88";
-    fsType = "ntfs3";
-    options = ["noatime" "nofail" "ads=0"];
-  };
-
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
 }
